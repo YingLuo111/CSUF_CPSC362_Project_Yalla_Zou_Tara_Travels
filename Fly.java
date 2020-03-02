@@ -1,5 +1,5 @@
 /*
- * This is don .....the Class of main JFrame
+ * This the Class of main JFrame
  * Home calss extends JPanel
  * This class include the all the sub Jpanel
  * This class set the layout of JFrame and 
