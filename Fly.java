@@ -7,6 +7,7 @@
  * Setting the JMenuBar
  * connetting all of the JPanel of this Program
  */
+// adding comment 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
