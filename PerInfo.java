@@ -4,24 +4,27 @@ import java.awt.event.*;
 import java.util.*;
 
 public class PerInfo extends JPanel implements ActionListener{
-	JLabel label1 = new JLabel("  The Personially Information ");
-    JLabel label2 = new JLabel("  Enter your Personially Information ");
 	
+	// Initializing the JLabels in Personal Information Class
+	JLabel label1 = new JLabel("  Personal Information ");
+    JLabel label2 = new JLabel("  Enter your Personal Information ");
 	
+	// Initializing JButtons used in Personal Information class 
 	JButton finish                  = new JButton(" Finish-->>");
-	JButton backPersonalIyInfoHome  = new JButton("<<--Back Information Home");
+	JButton backPersonalInfoHome  = new JButton("<<--Back Information Home");
 	JButton backHome                = new JButton("<<--Back Home");
 	
+	// Initializing TextFields used in Personal Information class
 	JTextField userEnter1;
 	JTextField userEnter2;
 	
 	//JTextArea finishTextArea = new JTextArea("");
 	
-	
+	// Initializing the JLabels to insert images into
 	JLabel image  = new JLabel(" ");
 	JLabel image2 = new JLabel(" ");
 	
-	
+	// Initializing JPanels used in Personal Information class
 	JPanel main   = new JPanel();
 	JPanel panelC = new JPanel();
 	JPanel panelN = new JPanel();
@@ -32,12 +35,13 @@ public class PerInfo extends JPanel implements ActionListener{
 	
 	//private CardLayout card = new CardLayout();
 	
+	// Initializing the images that will be used 
     private ImageIcon Picture;
 	private Image Img;
 	private ImageIcon Picture2;
 	private Image Img2;
 	
-	
+	// Creating an object of Fly class 
 	private Fly flyContainer;
 	
 	public PerInfo(Fly container) {
@@ -46,20 +50,23 @@ public class PerInfo extends JPanel implements ActionListener{
 		setSize(800,800);
 		setLayout(new BorderLayout());
 		
-		 label1.setFont(new Font("Arial", Font.BOLD, 25));
-		 setJLableBackGround(label1, Color.BLACK,new Color(100,149,237));
-		 label2.setFont(new Font("Arial", Font.BOLD, 25));
-		 setJLableBackGround(label1, Color.BLACK,new Color(100,149,237));
+		// Setting fonts
+		label1.setFont(new Font("Arial", Font.BOLD, 25));
+		label2.setFont(new Font("Arial", Font.BOLD, 25));
+		 
+		// Setting JLabel Backgrounds 
+		setJLabelBackGround(label1, Color.BLACK,new Color(100,149,237));
+		setJLabelBackGround(label1, Color.BLACK,new Color(100,149,237));
 		
 		 
-		 setJButtonBackGround(finish, Color.BLACK,new Color(100,149,237));
-		 setJButtonBackGround( backPersonalIyInfoHome, Color.BLACK,new Color(100,149,237));
-		 setJButtonBackGround(backHome, Color.BLACK,new Color(100,149,237));
+		setJButtonBackGround(finish, Color.BLACK,new Color(100,149,237));
+		setJButtonBackGround( backPersonalInfoHome, Color.BLACK,new Color(100,149,237));
+		setJButtonBackGround(backHome, Color.BLACK,new Color(100,149,237));
 		 
-		userEnter1= new JTextField("Please enter your name Fist Last",12);
-	 	userEnter2= new JTextField("Please enter your pastport number",12);
+		userEnter1 = new JTextField("Please enter your name (First Last)",12);
+	 	userEnter2 = new JTextField("Please enter your passport number",12);
 	 	
-		 
+		// Inserting the image icons
 		Picture = new ImageIcon("resources/Images/subtitle.png");
 		Img = Picture.getImage().getScaledInstance(900, 250, java.awt.Image.SCALE_SMOOTH);
 		image.setIcon(new ImageIcon(Img));
@@ -91,9 +98,10 @@ public class PerInfo extends JPanel implements ActionListener{
 		panelW.setLayout(new GridLayout(4, 1));
 		panelW.add(label1);
 		panelW.add(finish);
-		panelW.add( backPersonalIyInfoHome);
+		panelW.add( backPersonalInfoHome);
 		panelW.add(backHome);
 		
+		// Adding the panels to the main JPanel
 		main.add(panelN, BorderLayout.NORTH);
 		main.add(panelS, BorderLayout.SOUTH);
 		main.add(panelW, BorderLayout.WEST);
@@ -103,7 +111,7 @@ public class PerInfo extends JPanel implements ActionListener{
 		
 		finish.addActionListener(this);
 		backHome.addActionListener(this);
-		 backPersonalIyInfoHome.addActionListener(this);
+		backPersonalInfoHome.addActionListener(this);
 		
 	}
 
@@ -111,18 +119,24 @@ public class PerInfo extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 		
+        // If user clicks finish button, show currentFlightInfo card
 		if(source == finish){
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
-			flyCardLayout.show(flyContainer.getContentPane(),"currentlyFightInfo");
+			flyCardLayout.show(flyContainer.getContentPane(),"currentFightInfo");
 			
 			setCurUserInfo();
 			String curInfo = getCurInfo();
 			flyContainer.setCurFlightInfo(curInfo);
-		}else if(source == backPersonalIyInfoHome) {
+		}
+		
+		// If user clicks Back Information Home button, show personalInfoHomePanel card 
+		else if(source == backPersonalInfoHome) {
 			
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
-			flyCardLayout.show(flyContainer.getContentPane(),"personiallyInfoHomePanel");
-		}else if(source == backHome) {
+			flyCardLayout.show(flyContainer.getContentPane(),"personalInfoHomePanel");
+		}
+		// If user clicks Back home button, show HomePanel card
+		else if(source == backHome) {
 			
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(), "HomePanel");
@@ -131,6 +145,7 @@ public class PerInfo extends JPanel implements ActionListener{
 		}
 		
 	}
+	// Function to set JButton settings 
 	public void setJButtonBackGround(JButton b, Color FC,Color BC) {
 		
 		b.setForeground(FC);       
@@ -138,25 +153,28 @@ public class PerInfo extends JPanel implements ActionListener{
 		b.setOpaque(true);               
 		b.setBorderPainted(false);        
 	}
-   public void setJLableBackGround(JLabel l, Color FC,Color BC) {
+	// Function to set JLabel settings 
+   public void setJLabelBackGround(JLabel l, Color FC,Color BC) {
 		l.setOpaque(true);  
 		l.setBackground(BC);
 		l.setForeground(FC);
 		
 	}
+   // Function to set JTextArea settings 
    public void setJTextAreaBackGround(JTextArea t, Color FC,Color BC) {
 		t.setOpaque(true);  
 		t.setBackground(BC);
 		t.setForeground(FC);
 		
 	}
-	
+   
+   // This function is called if the user wants to reset their input
    public void reset() {
-		userEnter1.setText("Please enter your name Fist Last"); 
-	 	userEnter2.setText("Please enter your pastport number");
+		userEnter1.setText("Please enter your Name (First Last): "); 
+	 	userEnter2.setText("Please enter your passport number: ");
    }
    
-   
+   // Function to set the current user's information
    private void setCurUserInfo() {
 	   User curUser = flyContainer.getCurUser();
 	   String firstname = "", lastname = "";
@@ -172,6 +190,8 @@ public class PerInfo extends JPanel implements ActionListener{
 	   curUser.setLastName(lastname);
 	   curUser.setPassport(userEnter2.getText());
    }
+   
+   // Function to get the curent flight information
    private String getCurInfo() {
 		  User u = flyContainer.getCurUser();
 		  Ticket t = flyContainer.getCurTicket();
@@ -183,8 +203,9 @@ public class PerInfo extends JPanel implements ActionListener{
 		  
 		  return userInfo + "\n\n" + ticketInfo + "\n" + serviceInfo;
 	  }
-	  
-	  private String getUserInfo(User u) {
+   
+	 // Function to get the user's infromation: First name, last name and passport number 
+	 private String getUserInfo(User u) {
 		  String firstname = u.getFirstName();
 		  String lastname = u.getLastName();
 		  String passport = u.getPassport();
@@ -195,6 +216,7 @@ public class PerInfo extends JPanel implements ActionListener{
 		  return userInfo;
 	  }
 	  
+	 // Function to get the ticket information
 	  private String getTicketInfo(Ticket t) {
 		  String departAirport = t.getDepartAirport();
 		  String destAirport = t.getDestAirport();
@@ -211,19 +233,20 @@ public class PerInfo extends JPanel implements ActionListener{
 			  returnYear = t.getReturnYear();
 		  }
 		  
-		  String ticketInfo = "Departure at: " + departAirport + "\t" + "Arrival at: " + destAirport + "\n";
+		  // This outputs the ticket information 
+		  String ticketInfo = "Departure: " + departAirport + "\t" + "Arrival: " + destAirport + "\n";
 		  ticketInfo += "Leaving on: " + departMonth + "/" + departDate + "/" + departYear + "\n";
 		  if (t.isRoundTripTicket() == true) {
 			  ticketInfo += "Return from: " + destAirport + "\t" + "Return at: " + departAirport + "\n";
 			  ticketInfo += "Return on: " + returnMonth + "/" + returnDate + "/" + returnYear + "\n";
 		  }
-		  ticketInfo += "Cabin class: " + seatClass + "\n";
+		  ticketInfo += "Cabin Class: " + seatClass + "\n";
 		  ticketInfo += "Seat at: Row " + seatRow + " Col " + seatCol;
 		  
 		  return ticketInfo;
 		  
 	  }
-	  
+	  // Function to get the service information 
 	  private String getServiceInfo(Service s) {
 		  ArrayList<String> babyServices = null, foodServices = null, disableServices = null;
 		  
