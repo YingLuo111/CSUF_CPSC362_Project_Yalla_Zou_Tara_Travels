@@ -1,5 +1,4 @@
 /*
- * Do some test commits.------------------------
  * This the Class of main JFrame
  * Home calss extends JPanel
  * This class include the all the sub Jpanel
@@ -7,7 +6,6 @@
  * Setting the JMenuBar
  * connetting all of the JPanel of this Program
  */
-// adding comment 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
