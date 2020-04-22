@@ -19,7 +19,8 @@ public static void sendEmail() {
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(username, password);
                 }
-            });
+            }
+    );
 
     try {
 
@@ -28,7 +29,7 @@ public static void sendEmail() {
         message.setRecipients(
                 Message.RecipientType.TO, InternetAddress.parse("donavieordonez@gmail.com"));
         message.setSubject("Yalla Zou Tara Travels Ticket Confirmation");
-        message.setText("Hello, " + name + "Here is your flight confirmation"); 
+        //message.setText("Hello, " + PerInfo.getFirstName() + "This is your flight ticket confirmation"); 
 
         Transport.send(message);
         
