@@ -1,14 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class CurrentlyFightInfo extends JPanel implements ActionListener{
 	JLabel label1 = new JLabel(" Congratulations ! ");
     JLabel label2 = new JLabel("  Enter City and Date agina ");
 	
 	
-    JButton finish                  = new JButton(" Finish-->>");
+    JButton finish                  = new JButton(" Finish and Payment-->>");
 	JButton backPersonalIyInfoHome  = new JButton("<<--Back Personal Information Home");
+	JButton shareWithEmail          = new JButton("<< Share to my email >>");
 	JButton backHome                = new JButton("<<--Back Home");
 	
 	
@@ -46,13 +48,14 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
 		 
 		 setJButtonBackGround(finish, Color.BLACK,new Color(135,206,250));
 		 setJButtonBackGround(backPersonalIyInfoHome, Color.BLACK,new Color(135,206,250));
+		 setJButtonBackGround(shareWithEmail, Color.BLACK,new Color(135,206,250));
 		 setJButtonBackGround(backHome, Color.BLACK,new Color(135,206,250));
 		 
 		Picture = new ImageIcon("resources/Images/subtitle.png");
 		Img = Picture.getImage().getScaledInstance(900, 200, java.awt.Image.SCALE_SMOOTH);
 		image.setIcon(new ImageIcon(Img));
 		
-		Picture2 = new ImageIcon("resources/Images/personalImageSorth.png");
+		Picture2 = new ImageIcon("resources/Images/HomeImageSorth.png");
 		Img2 = Picture2.getImage().getScaledInstance(900, 250, java.awt.Image.SCALE_SMOOTH);
 		image2.setIcon(new ImageIcon(Img2));
 		
@@ -67,10 +70,11 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
 		panelC.add(finalInfo);
 		
 		panelW.setBackground(new Color(135,206,250));
-		panelW.setLayout(new GridLayout(4, 1));
+		panelW.setLayout(new GridLayout(5, 1));
 		panelW.add(label1);
 		panelW.add(finish);
 		panelW.add(backPersonalIyInfoHome);
+		panelW.add(shareWithEmail);
 		panelW.add(backHome);
 		
 		main.add(panelN, BorderLayout.NORTH);
@@ -84,8 +88,7 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
 		finish.addActionListener(this);
 		backPersonalIyInfoHome.addActionListener(this);
 		backHome.addActionListener(this);
-	
-		
+		shareWithEmail.addActionListener(this);	
 	}
 
 	@Override
@@ -106,6 +109,9 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
 			flyCardLayout.show(flyContainer.getContentPane(), "HomePanel");
 			//reset the information
 			flyContainer.reset();
+		} else if (source == shareWithEmail) {
+			String curInfo = getCurInfo();
+			SendEmail.send(flyContainer.getCurUser().getEmail(), curInfo);
 		}
 		
 	}
@@ -136,5 +142,128 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
    public void setDisplayedInfo(String info) {
 	   finalInfo.setText(info);
    }
+   
+   private String getCurInfo() {
+		  User u = flyContainer.getCurUser();
+		  Ticket t = flyContainer.getCurTicket();
+		  Service s = flyContainer.getCurService();
+		  
+		  String userInfo = getUserInfo(u);
+		  String ticketInfo = getTicketInfo(t);
+		  String serviceInfo = getServiceInfo(s);
+		  
+		  return userInfo + "\n\n" + ticketInfo + "\n" + serviceInfo;
+	  }
+	  
+	  private String getUserInfo(User u) {
+		  String firstname = u.getFirstName();
+		  String lastname = u.getLastName();
+		  String passport = u.getPassport();
+		  
+		  String userInfo = "FirstName: " + firstname + "\t" + "LastName:" + lastname;
+		  userInfo += "\nPassport: " + passport;
+		  
+		  return userInfo;
+	  }
+	  
+	  private String getTicketInfo(Ticket t) {
+		  String departAirport = t.getDepartAirport();
+		  String destAirport = t.getArriveAirport();
+		  String departMonth = t.getDepartMonth();
+		  String departDate = t.getDepartDay();
+		  String departYear = t.getDepartYear();
+		  String seatRow = t.getSeatRow();
+		  String seatCol = t.getSeatCol();
+		  String seatClass = t.getSeatClass();
+		  String returnMonth = "", returnDate = "", returnYear = "";
+		  if (t.isRoundTripTicket() == true) {
+			  returnMonth = t.getArriveMonth();
+			  returnDate = t.getArriveDay();
+			  returnYear = t.getArriveYear();
+		  }
+		  
+		  String ticketInfo = "Departure at: " + departAirport + "\t" + "Arrival at: " + destAirport + "\n";
+		  ticketInfo += "Leaving on: " + departMonth + "/" + departDate + "/" + departYear + "\n";
+		  if (t.isRoundTripTicket() == true) {
+			  ticketInfo += "Return from: " + destAirport + "\t" + "Return at: " + departAirport + "\n";
+			  ticketInfo += "Return on: " + returnMonth + "/" + returnDate + "/" + returnYear + "\n";
+		  }
+		  ticketInfo += "Cabin class: " + seatClass + "\n";
+		  ticketInfo += formatSeatInfo(seatClass, Integer.parseInt(seatRow), Integer.parseInt(seatCol));
+		  
+		  return ticketInfo;
+		  
+	  }
+	  
+	  private String getServiceInfo(Service s) {
+		  ArrayList<String> babyServices = null, foodServices = null, disableServices = null;
+		  
+		  if (s.isBabyBooked()) {
+			  babyServices = s.getBookedBabyService();
+		  }
+		  
+		  if (s.isDisableBooked()) {
+			  disableServices = s.getBookedDisabledFacilities();
+		  }
+		  
+		  if (s.isFoodBooked()) {
+			  foodServices = s.getBookedFoods();
+		  }
+		  
+		  String serviceInfo = "";
+		  if (babyServices != null) {
+			  serviceInfo += "\nBooked baby services are: \n";
+			  for (int i = 0; i < babyServices.size() - 1; i++) {
+				  serviceInfo += babyServices.get(i) + ", ";
+			  }
+			  serviceInfo += babyServices.get(babyServices.size() - 1);
+		  }
+		  
+		  if (disableServices != null) {
+			  serviceInfo += " \n";
+			  serviceInfo += "\nBooked disabled services are: \n";
+			  for (int i = 0; i < disableServices.size() - 1; i++) {
+				  serviceInfo += disableServices.get(i) + ", ";
+			  }
+			  serviceInfo += disableServices.get(disableServices.size() - 1);
+		  }
+		  
+		  if (foodServices != null) {
+			  serviceInfo += " \n";
+			  serviceInfo += "\nBooked food services are: \n";
+			  for (int i = 0; i < foodServices.size() - 1; i++) {
+				  serviceInfo += foodServices.get(i) + ", ";
+			  }
+			  serviceInfo += foodServices.get(foodServices.size() - 1);
+		  }
+		  
+		  return serviceInfo;
+	  }
+	  
+	  private String formatSeatInfo(String seatClass, int row, int col) {
+		  String seatInfo = "Seat at: ";
+		  if (seatClass.equals("Economy Class")) {
+			  String seat = String.valueOf(row + 5);
+			  //skip the aisle
+			  if (col <3) {
+				 seat += (char) ('A' + col);  
+			  } else if (col >= 4) {
+				 seat += (char) ('A' + col - 1);
+			  }
+			  seatInfo += seat;
+		  }
+		  
+		  if (seatClass.equals("First Class")) {
+			  String seat = String.valueOf(row + 1);
+			  //skip the aisle
+			  if (col < 2) {
+				 seat += (char) ('A' + col);  
+			  } else if (col >= 3) {
+				 seat += (char) ('A' + col - 1);
+			  }
+			  seatInfo += seat;
+		  }
+		  return seatInfo;
+	  }
 }
 

@@ -4,6 +4,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
+
 //This is the class of the JPanel  Seat and implements ActionListener
 public class Seat extends JPanel implements ActionListener, MouseListener{
 	//Initialize all of the JLable, JButton,JComboBox and JPanel
@@ -25,6 +27,9 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 		private JPanel economyBoard = new JPanel(new GridLayout(ROW2,COL2,SPACE,SPACE));
 		private JPanel firstCell[][] = new JPanel[ROW1][COL1];
 		private JPanel ecomCell[][]  = new JPanel[ROW2][COL2];
+		private boolean firstCellReserved[][] = new boolean[ROW1][COL1];
+		private boolean econCellReserved[][] = new boolean[ROW2][COL2]; 
+		
 		
 		private boolean isFirstBoardSelected = false;
 		private boolean isEcomBoardSelected = false;
@@ -65,11 +70,16 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 			 setJLableBackGround(label1, Color.BLACK,new Color(135,206,250));
 			 
 			 setJButtonBackGround(firstBusinessClass, Color.BLACK,new Color(135,206,250));
+			 firstBusinessClass.setToolTipText("商务舱" + "کلاس تجاری");
 			 setJButtonBackGround(economyClass, Color.BLACK,new Color(135,206,250));
-			 setJButtonBackGround(next, Color.BLACK,new Color(135,206,250));
-			 setJButtonBackGround(backSevice, Color.BLACK,new Color(135,206,250));
-			 setJButtonBackGround(backHome, Color.BLACK,new Color(135,206,250));
+			 economyClass.setToolTipText("经济舱" + "کلاس اقتصاد");
 			 
+			 setJButtonBackGround(next, Color.BLACK,new Color(135,206,250));
+			 next.setToolTipText("下一步" + "بعد");
+			 setJButtonBackGround(backSevice, Color.BLACK,new Color(135,206,250));
+			 backSevice.setToolTipText("返回 服务" + "خدمات برگشت");
+			 setJButtonBackGround(backHome, Color.BLACK,new Color(135,206,250));
+			 backHome.setToolTipText("返回主页" + "بازگشت");
 			Picture = new ImageIcon("resources/Images/subtitle.png");
 			Img = Picture.getImage().getScaledInstance(900, 250, java.awt.Image.SCALE_SMOOTH);
 			image.setIcon(new ImageIcon(Img));
@@ -214,7 +224,7 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 			for(int j = 0; j <COL1; j++) {
 				if (j == 2) continue;
 				
-				if (e.getSource() == firstCell[i][j]) {
+				if (e.getSource() == firstCell[i][j] && !isFirstReserved(i, j)) {
 					//reset cell color in ecom board
 					if (isEcomBoardSelected) {
 						isEcomBoardSelected = false;
@@ -241,7 +251,7 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 			for(int j = 0; j <COL2; j++) {
 				if (j == 3) continue;
 				
-				if (e.getSource() == ecomCell[i][j]) {
+				if (e.getSource() == ecomCell[i][j] && !isEconReserved(i, j)) {
 					//reset cell color in first board
 					if (isFirstBoardSelected) {
 						isFirstBoardSelected = false;
@@ -288,6 +298,51 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void markReservedSeats(Map<Integer, Set<Integer>> reservedFirstClassSeatsMap, Map<Integer, Set<Integer>> reservedEconomyClassSeatsMap) {
+		for (Map.Entry<Integer, Set<Integer>> e : reservedFirstClassSeatsMap.entrySet()) {
+			int row = e.getKey();
+			Set<Integer> cols = e.getValue();
+			for (Integer c : cols) {
+				int cInt = c.intValue();
+				if (cInt >= 0 && cInt < firstCell[0].length) {
+					firstCell[row][c.intValue()].setBackground(Color.RED);
+					firstCellReserved[row][c.intValue()] = true;		
+				}
+			}
+		}
+		
+		for (Map.Entry<Integer, Set<Integer>> e : reservedEconomyClassSeatsMap.entrySet()) {
+			int row = e.getKey();
+			Set<Integer> cols = e.getValue();
+			for (Integer c : cols) {
+				int cInt = c.intValue();
+				if (cInt >= 0 && cInt < ecomCell[0].length) {
+					ecomCell[row][c.intValue()].setBackground(Color.RED);
+					econCellReserved[row][c.intValue()] = true;
+				}
+			}
+		}
+	}
+	
+	private boolean isFirstReserved(int row, int col) {
+		boolean result = false;
+		if (firstCellReserved[row][col] == true) {
+			JOptionPane.showMessageDialog(null, "This seat has been reserved, please select another seat!");
+			result = true;
+		}
+		return result;
+	}
+	
+	private boolean isEconReserved(int row, int col) {
+		boolean result = false;
+		if (econCellReserved[row][col] == true) {
+			JOptionPane.showMessageDialog(null, "This seat has been reserved, please select another seat!");
+			result = true;
+		}
+		return result;
+	}
+	
 	 //This is the reset mothed to reset the information
 	public void reset() {
 		if (isFirstBoardSelected == true) {

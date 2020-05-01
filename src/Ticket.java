@@ -5,33 +5,51 @@
  */
 public class Ticket {
 	//Initialize the each of the information about user
+	private String flight;
 	private String departAirport;
-	private String destAirport;
-	private String leavingDate;
-	private String leavingMonth;
-	private String leavingYear;
-	private String returnDate;
-	private String returnMonth;
-	private String returnYear;
+	private String arriveAirport;
+	
+	private String departTime;
+	private String departDay;
+	private String departMonth;
+	private String departYear;
+	
+	private String arriveTime;
+	private String arriveDay;
+	private String arriveMonth;
+	private String arriveYear;
+	
 	private String seatRow;
 	private String seatCol;
 	private String seatClass;
+	
+	private String aircompany;
 	private boolean isRoundTrip;
+	private double price;
+
 	//this is the constructor
 	public Ticket() {
+		this.flight = "";
 		this.departAirport = "";
-		this.destAirport = "";
-		this.leavingDate = "";
-		this.leavingMonth = "";
-		this.leavingYear = "";
-		this.returnDate = "";
-		this.returnMonth = "";
-		this.returnYear = "";
-		this.seatRow = "";
+		this.arriveAirport = "";
+		
+		this.departTime = "";
+		this.departDay = "";
+		this.departMonth = "";
+		this.departYear = "";
+		
+		this.arriveTime = "";
+		this.arriveDay = "";
+		this.arriveMonth = "";
+		this.arriveYear = "";
+		
 		this.seatRow = "";
 		this.seatCol = "";
 		this.seatClass = "";
+		
+		this.aircompany = "";
 		this.isRoundTrip = false;
+		this.price = 0.0;
 	}
 	
 	public boolean isRoundTripTicket() {
@@ -44,44 +62,72 @@ public class Ticket {
 	
 	public String getBackDepartAirport() {
 		if (isRoundTrip == false) return "";
-		return this.destAirport;
+		return this.arriveAirport;
 	}
 	
-	public String getBackDestAirport() {
+	public String getBackarriveAirport() {
 		if (isRoundTrip == false) return "";
 		return this.departAirport;
+	}
+	
+	public String getFlight() {
+		return this.flight;
+	}
+	
+	public String getAircompany() {
+		return this.aircompany;
+	}
+	
+	public double getPrice() {
+		return this.price;
+	}
+	
+	public String getDepartTime() {
+		return this.departTime;
+	}
+	
+	public String getArriveTime() {
+		return this.arriveTime;
+	}
+	
+	public String getDepartDate() {
+		return this.departYear + "-" + this.departMonth + "-" + this.departDay;
+	}
+	
+	public String getArriveDate() {
+		return this.arriveYear + "-" + this.arriveMonth + "-" + this.arriveDay;
 	}
 	
 	public String getDepartAirport() {
 		return this.departAirport;
 	}
 	
-	public String getDestAirport() {
-		return this.destAirport;
+	public String getArriveAirport() {
+		return this.arriveAirport;
 	}
 	
-	public String getLeavingDate() {
-		return this.leavingDate;
+	public String getDepartDay() {
+		return this.departDay;
 	}
 	
-	public String getLeavingMonth() {
-		return this.leavingMonth;
+	public String getDepartMonth() {
+		return this.departMonth;
 	}
 	
-	public String getLeavingYear() {
-		return this.leavingYear;
+	public String getDepartYear() {
+		return this.departYear;
 	}
 	
-	public String getReturnDate() {
-		return this.returnDate;
+	public String getArriveDay() {
+		return this.arriveDay;
 	}
 	
-	public String getReturnMonth() {
-		return this.returnMonth;
+	public String getArriveMonth() {
+		return this.arriveMonth;
 	}
 	
-	public String getReturnYear() {
-		return this.returnYear;
+	public String getArriveYear() {
+		return this.arriveYear;
 	}
 	
 	public String getSeatRow() {
@@ -96,36 +142,40 @@ public class Ticket {
 		return this.seatClass;
 	}
 	
+	public String getSeat() {
+		return this.seatClass + " " + this.getSeatRow() + "," + this.getSeatCol();
+	}
+	
 	public void setDepartAirport(String deptAirport) {
 		this.departAirport = deptAirport;
 	}
 	
-	public void setDestAirport(String destAirport) {
-		this.destAirport = destAirport;
+	public void setArriveAirport(String arriveAirport) {
+		this.arriveAirport = arriveAirport;
 	}
 	
-	public void setLeavingDate(String date) {
-		this.leavingDate = date;
+	public void setDepartDay(String date) {
+		this.departDay = date;
 	}
 	
-	public void setLeavingMonth(String month) {
-		this.leavingMonth = month;
+	public void setDepartMonth(String month) {
+		this.departMonth = month;
 	}
 	
-	public void setLeavingYear(String year) {
-		this.leavingYear = year;
+	public void setDepartYear(String year) {
+		this.departYear = year;
 	}
 	
-	public void setReturnDate(String date) {
-		this.returnDate = date;
+	public void setArriveDay(String date) {
+		this.arriveDay = date;
 	}
 	
-	public void setReturnMonth(String month) {
-		this.returnMonth = month;
+	public void setArriveMonth(String month) {
+		this.arriveMonth = month;
 	}
 	
-	public void setReturnYear(String year) {
-		this.returnYear = year;
+	public void setArriveYear(String year) {
+		this.arriveYear = year;
 	}
 	
 	public void setSeatRow(String row) {
@@ -138,5 +188,25 @@ public class Ticket {
 	
 	public void setSeatClass(String seatClass) {
 		this.seatClass = seatClass;
+	}
+	
+	public void setFlight(String flight) {
+		this.flight = flight;
+	}
+	
+	public void setAircompany(String aircompany) {
+		this.aircompany = aircompany;
+	}
+	
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
+	public void setDepartTime(String departTime) {
+		this.departTime = departTime;
+	}
+	
+	public void setArriveTime(String arriveTime) {
+		this.arriveTime = arriveTime;
 	}
 }

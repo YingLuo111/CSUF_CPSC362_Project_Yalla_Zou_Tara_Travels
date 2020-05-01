@@ -15,7 +15,7 @@ public class SelectHome extends JPanel implements ActionListener{
 	private JLabel label1 = new JLabel("             Please choice one. ");
 	//Initialize the JButton
 	private JButton oneWay        = new JButton("OneWay-Trip");
-	private JButton roundTrip     = new JButton("Round-Trip");
+	
 	private JButton change        = new JButton("Change-Trip");
 	private JButton onlineRefound = new JButton("Refund-Trip");
 	private JButton backHome      = new JButton("<<--Back Service");
@@ -45,10 +45,16 @@ public class SelectHome extends JPanel implements ActionListener{
 		setLayout(new BorderLayout());
 		//setting the label1 font
 		 label1.setFont(new Font("Arial", Font.BOLD, 25));
+		 
+		 oneWay.setToolTipText("单程票"+ " یک طرفه");
+		 change.setToolTipText("改签"+ "پرواز را تغییر دهید");
+		 onlineRefound.setToolTipText("退票" + "بازپرداخت");
+		 backHome .setToolTipText("返回"+"بازگشت");
+
 		//setting the JButton's and JLabel's background
 		 setJLableBackGround(label1, Color.BLACK,new Color(135,206,250));
 		 setJButtonBackGround(oneWay, Color.BLACK,new Color(135,206,250));
-		 setJButtonBackGround(roundTrip, Color.BLACK,new Color(135,206,250));
+		 
 		 setJButtonBackGround(change, Color.BLACK,new Color(135,206,250));
 		 setJButtonBackGround(onlineRefound, Color.BLACK,new Color(135,206,250));
 		 setJButtonBackGround(backHome, Color.BLACK,new Color(135,206,250));
@@ -75,10 +81,10 @@ public class SelectHome extends JPanel implements ActionListener{
 		panelS.add(image2);
 		panelW.add(image3);
 		
-		panelC.setLayout(new GridLayout(6, 1));
+		panelC.setLayout(new GridLayout(5, 1));
 		panelC.add(label1);
 		panelC.add(oneWay);
-		panelC.add(roundTrip);
+		//panelC.add(roundTrip);
 		panelC.add(change);
 		panelC.add(onlineRefound);
 		panelC.add(backHome);
@@ -91,7 +97,7 @@ public class SelectHome extends JPanel implements ActionListener{
 		add(main);
 		//Adding the action listenner for each button
 		oneWay.addActionListener(this);
-		roundTrip.addActionListener(this);
+		//roundTrip.addActionListener(this);
 		change.addActionListener(this);
 		onlineRefound.addActionListener(this);
 		backHome.addActionListener(this);
@@ -109,9 +115,10 @@ public class SelectHome extends JPanel implements ActionListener{
 		if(source == oneWay){
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(), "oneWayPanel");
-		}else if(source == roundTrip){
-			CardLayout flyCardLayout = flyContainer.getCardLayout();
-			flyCardLayout.show(flyContainer.getContentPane(), "roundWayPanel");
+//		}else if(source == roundTrip){
+//			CardLayout flyCardLayout = flyContainer.getCardLayout();
+//			flyCardLayout.show(flyContainer.getContentPane(), "roundWayPanel");
+//		}
 		}else if(source == change) {
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(),"ChangeTripPanel");

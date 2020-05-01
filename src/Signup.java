@@ -16,20 +16,22 @@ import java.awt.event.KeyListener;
 /*
  * This is the Home class
  */
-public class Login extends JPanel implements ActionListener{
+public class Signup extends JPanel implements ActionListener{
 	//Initialize the JPanel panelHome and panelButton
 	private JPanel panelHome         = new JPanel();
-	private JPanel panelLogin       = new JPanel();
+	private JPanel panelSignup       = new JPanel();
     //Initialize the JLabel title
 	private JLabel title             = new JLabel();
-	private JLabel username     = new JLabel("       Username---->>>");
-	private JLabel password     = new JLabel("       Password---->>>");
-	private JTextField userText = new JTextField("",20);
-	private JTextField passText = new JTextField("",20);
+	private JLabel username          = new JLabel("     Username >>>");
+	private JLabel password    		 = new JLabel("     Password >>>");
+	private JLabel email           	 = new JLabel("     Email    >>>");
+	private JTextField userText 	 = new JTextField("",20);
+	private JTextField passText 	 = new JTextField("",20);
+	private JTextField emailText 	 = new JTextField("",20);
 	
 	//Initialize the JButton 
-	private JButton buttonLogin      = new JButton("Login");
 	private JButton buttonSignup     = new JButton("Signup");
+	private JButton buttonBack       = new JButton("Back");
 
 	//Initialize the JLabel for insert the image
 	private JLabel image             = new JLabel(" ");
@@ -48,7 +50,7 @@ public class Login extends JPanel implements ActionListener{
 	
 	CardLayout cardLayout = new CardLayout();
 	//This is the constructor
-	public Login(Fly container, DBManager dbmgr) {
+	public Signup(Fly container, DBManager dbmgr) {
 		//setting the Layout and Size
 		flyContainer = container;
 		
@@ -60,22 +62,29 @@ public class Login extends JPanel implements ActionListener{
 		title = new JLabel("        Yalla Zou Tara Travels Login ");
 	    title.setFont(new Font("PilGi", Font.BOLD, 40));
 	    setJLableBackGround(title, Color.BLACK,new Color(135,206,250));
+	    
 	    //setting the Button's font 
-	    buttonLogin.setFont(new Font("Arial", Font.BOLD, 25));
-	    buttonLogin.setToolTipText("登录 وارد شدن  ");
+	    buttonBack.setFont(new Font("Arial", Font.BOLD, 25));
+	    buttonBack.setToolTipText("返回\n"+ " بازگشت");
 	    buttonSignup.setFont(new Font("Arial", Font.BOLD, 25));
-	    buttonSignup.setToolTipText("注册 \n" + 	"ثبت نام");
+	    buttonSignup.setToolTipText("注册\n"+ "ثبت نام");
 	    
-	    
+
 	    username.setFont(new Font("Arial", Font.BOLD, 25));
-	    username.setToolTipText("用户名\n"+ " نام کاربریя");
+	    username.setToolTipText("用户名\n"+ "نام کاربری");
+	    
 	    password.setFont(new Font("Arial", Font.BOLD, 25));
 	    password.setToolTipText("密码\n" + "کلمه عبور");
-	    setJLableBackGround(username, Color.BLACK,new Color(95,158,160));
-	    setJLableBackGround(password, Color.BLACK,new Color(32,178,170));
+	    
+	    email.setFont(new Font("Arial", Font.BOLD, 25));
+	    email.setToolTipText("电子邮箱\n" + "پست الکترونیک");
+	    
+	    setJLableBackGround(username, Color.BLACK,new Color(176,224,230));
+	    setJLableBackGround(password, Color.BLACK,new Color(95,158,160));
+	    setJLableBackGround(email, Color.BLACK,new Color(32,178,170));
 
         //settong the Button's background color
-	    setJButtonBackGround(buttonLogin, Color.BLACK,Color.YELLOW);
+	    setJButtonBackGround(buttonBack, Color.BLACK,Color.YELLOW);
 	    setJButtonBackGround(buttonSignup, Color.BLACK,Color.PINK);
 
 	    //Creating the ImageIcon and fixed it size
@@ -87,22 +96,24 @@ public class Login extends JPanel implements ActionListener{
 		Img2 = Picture2.getImage().getScaledInstance(900, 300, java.awt.Image.SCALE_SMOOTH);
 		image2.setIcon(new ImageIcon(Img2));
 		//setting the button's layout and adding it
-		panelLogin.setLayout(new GridLayout(3, 2));
-		panelLogin.add(username);
-		panelLogin.add(userText);
-		panelLogin.add(password);
-		panelLogin.add(passText);
-		panelLogin.add(buttonLogin);
-		panelLogin.add(buttonSignup);
+		panelSignup.setLayout(new GridLayout(4, 2));
+		panelSignup.add(username);
+		panelSignup.add(userText);
+		panelSignup.add(password);
+		panelSignup.add(passText);
+		panelSignup.add(email);
+		panelSignup.add(emailText);
+		panelSignup.add(buttonBack);
+		panelSignup.add(buttonSignup);
 		//setting the panelHome's layout and adding it
 		panelHome.setLayout(new GridLayout(4, 1));
 		panelHome.add(image);
 		panelHome.add(title); 
-		panelHome.add(panelLogin);
+		panelHome.add(panelSignup);
 		panelHome.add(image2);
 		add(panelHome,"Panel1");
 		//Adding the button's action
-		buttonLogin.addActionListener(this);
+		buttonBack.addActionListener(this);
 		buttonSignup.addActionListener(this);
 		
 	    KeyListener keyListener = new KeyListener() {
@@ -127,7 +138,7 @@ public class Login extends JPanel implements ActionListener{
 	      };
 	      
 	      passText.addKeyListener(keyListener);
-		
+	
 	}
 	/*
 	 * This is the actionperformed to execute the button's action 
@@ -139,26 +150,31 @@ public class Login extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-		if(source == buttonLogin){
+		if(source == buttonBack){
+			CardLayout flyCardLayout = flyContainer.getCardLayout();
+			flyCardLayout.show(flyContainer.getContentPane(), "LoginPanel");
+		}else if(source == buttonSignup){
 			String username = userText.getText();
 			String password = passwordStr;
+			String email    = emailText.getText();
 			
-			if (! validateUsername(username) || ! validatePassword(password)) {
+			if (! validateUsername(username) || ! validatePassword(password) || ! validateEmail(email)) {
 				return;
 			}
 			
-			if (dbmgr.isUserInfoInDB(username, password)) {
-				CardLayout flyCardLayout = flyContainer.getCardLayout();
-				flyCardLayout.show(flyContainer.getContentPane(), "HomePanel");
+			if (dbmgr.insertUserEntryToDB(username, password, email)) {
+				int clicked = JOptionPane.showOptionDialog(null, "Sign up succeed! Now navigate to log in.", "Congratulations!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+				if(clicked == JOptionPane.OK_OPTION)
+				{
+					CardLayout flyCardLayout = flyContainer.getCardLayout();
+					flyCardLayout.show(flyContainer.getContentPane(), "LoginPanel");
+				}
 			} else {
-				JOptionPane.showMessageDialog(null, "Please check username and password, or sign up if first time user.");
+				JOptionPane.showMessageDialog(null, "Sorry, sign up failed, please try again.");
 			}
-		}else if(source == buttonSignup){
-			CardLayout flyCardLayout = flyContainer.getCardLayout();
-			flyCardLayout.show(flyContainer.getContentPane(),"SignupPanel");
 		}
 	}
-	
 	/*
 	 * This is the method to set the JButton Background 
 	 */
@@ -196,6 +212,17 @@ public class Login extends JPanel implements ActionListener{
 			result = true;
 		} else {
 			JOptionPane.showMessageDialog(null, "Password could not be empty, please enter a password!");
+		}
+		
+		return result;
+	}
+	
+	private boolean validateEmail(String email) {
+		boolean result = false;
+		if (email != null && email.length() > 0) {
+			result = true;
+		} else {
+			JOptionPane.showMessageDialog(null, "Email could not be empty, please enter an email!");
 		}
 		
 		return result;

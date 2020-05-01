@@ -20,8 +20,10 @@ public class Home extends JPanel implements ActionListener{
 	private JLabel title             = new JLabel();
 	//Initialize the JButton 
 	private JButton buttonSelect     = new JButton("Book a Flight");
-	private JButton buttonInfomation = new JButton("Flight Information");
-	private JButton buttonSevice     = new JButton("More Services");
+	//**
+	//private JButton buttonInfomation = new JButton("Flight Information");
+    //private JButton buttonSevice     = new JButton("More Services");
+	
 	private JButton buttonPersinal   = new JButton("Personal Information");
 	//Initialize the JLabel for insert the image
 	private JLabel image             = new JLabel(" ");
@@ -47,13 +49,16 @@ public class Home extends JPanel implements ActionListener{
 	    setJLableBackGround(title, Color.BLACK,new Color(135,206,250));
 	    //setting the Button's font 
 	    buttonSelect.setFont(new Font("Arial", Font.BOLD, 25));
-	    buttonInfomation.setFont(new Font("Arial", Font.BOLD, 25));
-	    buttonSevice.setFont(new Font("Arial", Font.BOLD, 25));
+	    buttonSelect.setToolTipText("航班选择\n" + "پروازها");
+//	    buttonInfomation.setFont(new Font("Arial", Font.BOLD, 25));
+//	    buttonSevice.setFont(new Font("Arial", Font.BOLD, 25));
 	    buttonPersinal.setFont(new Font("Arial", Font.BOLD, 25));
+	    buttonPersinal.setToolTipText("个人信息\n" + "اطلاعات شخصی");
+	    
         //settong the Button's background color
 	    setJButtonBackGround(buttonSelect, Color.BLACK,Color.YELLOW);
-	    setJButtonBackGround(buttonInfomation, Color.BLACK,Color.PINK);
-	    setJButtonBackGround(buttonSevice, Color.BLACK,new Color(50,205,50));
+//	    setJButtonBackGround(buttonInfomation, Color.BLACK,Color.PINK);
+//	    setJButtonBackGround(buttonSevice, Color.BLACK,new Color(50,205,50));
 	    setJButtonBackGround(buttonPersinal, Color.BLACK,new Color(32,178,170));
 	    //Creating the ImageIcon and fixed it size
         Picture = new ImageIcon("resources/Images/HomeImagenorth.png");
@@ -64,10 +69,10 @@ public class Home extends JPanel implements ActionListener{
 		Img2 = Picture2.getImage().getScaledInstance(900, 300, java.awt.Image.SCALE_SMOOTH);
 		image2.setIcon(new ImageIcon(Img2));
 		//setting the button's layout and adding it
-		panelButton.setLayout(new GridLayout(2, 2));
+		panelButton.setLayout(new GridLayout(1, 2));
 		panelButton.add(buttonSelect);
-		panelButton.add(buttonInfomation);
-		panelButton.add(buttonSevice);
+//		panelButton.add(buttonInfomation);
+//		panelButton.add(buttonSevice);
 		panelButton.add(buttonPersinal);
 		//setting the panelHome's layout and adding it
 		panelHome.setLayout(new GridLayout(4, 1));
@@ -78,8 +83,8 @@ public class Home extends JPanel implements ActionListener{
 		add(panelHome,"Panel1");
 		//Adding the button's action
 		buttonSelect.addActionListener(this);
-		buttonInfomation.addActionListener(this);
-		buttonSevice.addActionListener(this);
+//		buttonInfomation.addActionListener(this);
+//		buttonSevice.addActionListener(this);
 		buttonPersinal.addActionListener(this);
 	
 	}
@@ -96,12 +101,12 @@ public class Home extends JPanel implements ActionListener{
 		if(source == buttonSelect){
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(), "SelectButtonsHomePanel");
-		}else if(source == buttonInfomation){
-			CardLayout flyCardLayout = flyContainer.getCardLayout();
-			flyCardLayout.show(flyContainer.getContentPane(),"informationHomePanel");
-		}else if(source == buttonSevice) {
-			CardLayout flyCardLayout = flyContainer.getCardLayout();
-			flyCardLayout.show(flyContainer.getContentPane(), "seviceHomePanel");
+//		}else if(source == buttonInfomation){
+//			CardLayout flyCardLayout = flyContainer.getCardLayout();
+//			flyCardLayout.show(flyContainer.getContentPane(),"informationHomePanel");
+//		}else if(source == buttonSevice) {
+//			CardLayout flyCardLayout = flyContainer.getCardLayout();
+//			flyCardLayout.show(flyContainer.getContentPane(), "seviceHomePanel");
 		}else if(source == buttonPersinal) {
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(),"personiallyInfoHomePanel");

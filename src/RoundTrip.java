@@ -186,17 +186,17 @@ public class RoundTrip extends JPanel implements ActionListener{
 			
 		}if(source == next) {
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
-			flyCardLayout.show(flyContainer.getContentPane(), "seatPanel");
-			
+			//flyCardLayout.show(flyContainer.getContentPane(), "seatPanel");
+			flyCardLayout.show(flyContainer.getContentPane(), "FightListPanel");
 			Ticket t = flyContainer.getCurTicket();
 			t.setDepartAirport(fromCity.getText());
-			t.setDestAirport(toCity.getText());
-			t.setLeavingDate(day.getSelectedItem().toString());
-			t.setLeavingMonth(month.getSelectedItem().toString());
-			t.setLeavingYear(year.getSelectedItem().toString());
-			t.setReturnDate(day2.getSelectedItem().toString());
-			t.setReturnMonth(month2.getSelectedItem().toString());
-			t.setReturnYear(year2.getSelectedItem().toString());
+			t.setArriveAirport(toCity.getText());
+			t.setDepartDay(day.getSelectedItem().toString());
+			t.setDepartMonth(month.getSelectedItem().toString());
+			t.setDepartYear(year.getSelectedItem().toString());
+			t.setArriveDay(day2.getSelectedItem().toString());
+			t.setArriveMonth(month2.getSelectedItem().toString());
+			t.setArriveYear(year2.getSelectedItem().toString());
 			t.setRoundTripticket();
 			
 		}

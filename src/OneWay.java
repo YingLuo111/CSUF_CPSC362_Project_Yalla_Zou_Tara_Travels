@@ -6,6 +6,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 //This is the class of the JPanel oneWay and implements ActionListener
 public class OneWay extends JPanel implements ActionListener{
 	
@@ -37,33 +38,41 @@ public class OneWay extends JPanel implements ActionListener{
 	private JPanel panel3       = new JPanel();
 	
 	private Fly flyContainer;
-	
+	private DBManager dbManager;
 	/*
 	 * This is the constructor  of this class
 	 *this consturctor setting the all of the JLabel's
 	 *JButton's, JPanel's font,backgound, size and layout 
 	 */
-	public OneWay(Fly container){
+	public OneWay(Fly container, DBManager dbmgr){
 		
 		flyContainer = container;
+		dbManager = dbmgr;
 		
 		setSize(1000,800);
 		setLayout(new GridLayout(4,1));
 		
 		label1 = new JLabel("Please Enter from City/Airport  and arrival City/Airport");
-	    label1.setFont(new Font("Apple Chancery", Font.BOLD, 35));
+	    label1.setFont(new Font("Apple Chancery", Font.BOLD, 25));
 	    setJLableBackGround(label1, Color.BLACK,new Color(135,206,250));
 	    
 	    from1.setFont(new Font("Arial", Font.BOLD, 20));
 	    setJLableBackGround(  from1, Color.BLACK,new Color(100,149,237));
+	    from1.setToolTipText("出发地" +"از جایی که؟");
+	    
 	    to.setFont(new Font("Arial", Font.BOLD, 20));
 	    setJLableBackGround(to, Color.BLACK,new Color(100,149,237));
+	    to.setToolTipText("到达" +"به کجا؟");
+	    
 	    backHome.setFont(new Font("Arial", Font.BOLD, 20));
 	    setJButtonBackGround(backHome, Color.BLACK,new Color(240,128,128));
+	    backHome.setToolTipText("返回主页" + "بازگشت");
 	    backSclect.setFont(new Font("Arial", Font.BOLD, 20));
 	    setJButtonBackGround(backSclect, Color.BLACK,new Color(225,218,155));
+	    backSclect.setToolTipText("返回选择" + "برگشت انتخاب کنید");
 	    next.setFont(new Font("Arial", Font.BOLD, 20));
 	    setJButtonBackGround(next, Color.BLACK,new Color(124,252,0));
+	    next.setToolTipText("下一步" + "بعد");
 	    
 	    panel1.setLayout(new GridLayout(2,2,2,2));
 	    panel1.setBackground(new Color(100,149,237));
@@ -132,15 +141,20 @@ public class OneWay extends JPanel implements ActionListener{
 			
 		}if(source == next) {
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
-			flyCardLayout.show(flyContainer.getContentPane(), "seatPanel");
-			
+			//****
+			//flyCardLayout.show(flyContainer.getContentPane(), "seatPanel");
+			String departCode = fromCity.getText();
+			String arriveCode = toCity.getText();
+			ArrayList<String> flightList = dbManager.queryFlightInfo(departCode, arriveCode);
+			flyContainer.updateFlightListPanel(flightList);
+			flyCardLayout.show(flyContainer.getContentPane(), "FlightListPanel");
 			//store the ticket infomation
 			Ticket t = flyContainer.getCurTicket();
 			t.setDepartAirport(fromCity.getText());
-			t.setDestAirport(toCity.getText());
-			t.setLeavingDate(day.getSelectedItem().toString());
-			t.setLeavingMonth(month.getSelectedItem().toString());
-			t.setLeavingYear(year.getSelectedItem().toString());
+			t.setArriveAirport(toCity.getText());
+			t.setDepartDay(day.getSelectedItem().toString());
+			t.setDepartMonth(month.getSelectedItem().toString());
+			t.setDepartYear(year.getSelectedItem().toString());
 			
 		}
 		

@@ -11,7 +11,7 @@ public class FoodService extends JPanel implements ActionListener, ItemListener{
 	private JLabel label1            = new JLabel("The Food Service ");
 	private JLabel label2            = new JLabel(" Plaese choice");
 	private JLabel label3            = new JLabel(" what service you want to reserve.V");
-	private JButton finish           = new JButton("finish-->>");
+	private JButton finish           = new JButton("finish or Skip to next -->>");
 	private JButton backMoreSevice   = new JButton("<<--Back More Sevice");
 	private JButton backHome         = new JButton("<<--Back Home");
 	

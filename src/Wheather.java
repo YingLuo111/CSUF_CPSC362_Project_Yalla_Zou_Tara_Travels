@@ -13,6 +13,7 @@ public class Wheather extends JPanel implements ActionListener{
 		
 		JButton wheather              = new JButton(" Getting the Weather");
 		JButton enterWheather         = new JButton(" Enter the city again");
+		JButton shareWithEmail          = new JButton("<< Share to my email >>");
 		JButton backSevice            = new JButton("<<--Back Information Home");
 		JButton backHome              = new JButton("<<--Back Home");
 		
@@ -21,7 +22,7 @@ public class Wheather extends JPanel implements ActionListener{
 		JTextField userEnter3;
 		JTextField userEnter4;
 		
-		JTextArea wheatherTextArea = new JTextArea("");
+		JTextArea weatherTextArea = new JTextArea("");
 		
 		
 		JLabel image  = new JLabel(" ");
@@ -45,14 +46,21 @@ public class Wheather extends JPanel implements ActionListener{
 		
 		
 		private Fly flyContainer;
+		private DBManager dbManager;
+		
+		private String destCity;
+		
 		/*
 		 * This is the constructor  of this class
 		 *this consturctor setting the all of the JLabel's
 		 *JButton's, JPanel's font,backgound, size and layout 
 		 */
-		public Wheather(Fly container) {
+		public Wheather(Fly container, DBManager dbmgr) {
 			
 			flyContainer = container;
+			dbManager    = dbmgr;
+			destCity     = "";
+			
 			setSize(800,800);
 			setLayout(new BorderLayout());
 			
@@ -61,11 +69,12 @@ public class Wheather extends JPanel implements ActionListener{
 			 label2.setFont(new Font("Arial", Font.BOLD, 25));
 			 setJLableBackGround(label1, Color.BLACK,new Color(135,206,250));
 			 
-			 wheatherTextArea.setFont(new Font("Arial", Font.PLAIN, 17));
-			 setJTextAreaBackGround(wheatherTextArea, Color.BLACK,new Color(135,206,250));
+			 weatherTextArea.setFont(new Font("Arial", Font.PLAIN, 17));
+			 setJTextAreaBackGround(weatherTextArea, Color.BLACK,new Color(135,206,250));
 			 
 			 setJButtonBackGround(wheather, Color.BLACK,new Color(135,206,250));
 			 setJButtonBackGround(enterWheather, Color.BLACK,new Color(135,206,250));
+			 setJButtonBackGround(shareWithEmail, Color.BLACK,new Color(135,206,250));
 			 setJButtonBackGround(backSevice, Color.BLACK,new Color(135,206,250));
 			 setJButtonBackGround(backHome, Color.BLACK,new Color(135,206,250));
 			 
@@ -102,7 +111,7 @@ public class Wheather extends JPanel implements ActionListener{
 			panelEnter.add(userEnter4);
 			
 			panelShow.setBackground(new Color(135,206,250));
-			panelShow.add(wheatherTextArea,BorderLayout.CENTER);
+			panelShow.add(weatherTextArea,BorderLayout.CENTER);
 			
 			panelC.setBackground(new Color(135,206,250));
 			panelC.add(panelEnter,BorderLayout.CENTER);
@@ -111,10 +120,11 @@ public class Wheather extends JPanel implements ActionListener{
 			
 			
 			
-			panelW.setLayout(new GridLayout(5, 1));
+			panelW.setLayout(new GridLayout(6, 1));
 			panelW.add(label1);
 			panelW.add(enterWheather);
 			panelW.add(wheather);
+			panelW.add(shareWithEmail);
 			panelW.add(backSevice);
 			panelW.add(backHome);
 			
@@ -141,28 +151,36 @@ public class Wheather extends JPanel implements ActionListener{
 	        Object source = e.getSource();
 			
 			if(source == wheather){
+				this.destCity = userEnter1.getText();
 				userEnter1.setVisible(false);
 				userEnter2.setVisible(false);
 				userEnter3.setVisible(false);
 				userEnter4.setVisible(false);
-				wheatherTextArea.setVisible(true);
-				wheatherTextArea.setText("On "+ userEnter2.getText()+ " - " +userEnter3.getText()+" - "+
-						                 userEnter4.getText()+"\n"+ "The "+ userEnter1.getText() + "'s Weather is\n"+
-						                 "45°\n" + 
-						                 "RAIN\n" + 
-						                 "feels like 40°\n" + 
-						                 "H -- L 44°\n" + 
-						                 "UV Index 0 of 10");
+				enterWheather.setVisible(false);
+				weatherTextArea.setVisible(true);
+//				weatherTextArea.setText("On "+ userEnter2.getText()+ " - " +userEnter3.getText()+" - "+
+//						                 userEnter4.getText()+"\n"+ "The "+ userEnter1.getText() + "'s Weather is\n"+
+//						                 "45°\n" + 
+//						                 "RAIN\n" + 
+//						                 "feels like 40°\n" + 
+//						                 "H -- L 44°\n" + 
+//						                 "UV Index 0 of 10");
+				String dest = "";
+				if (!this.destCity.equals("Please enter the City/Airport")) {
+					dest = this.destCity;
+				} else {
+					dest = dbManager.queryCityNameFromAirportCode(flyContainer.getCurTicket().getArriveAirport());	
+				}
+				String weatherInfo = WeatherRequestAPI.getCityWeatherInfo(dest);
+				weatherTextArea.setText(weatherInfo);
 				
 			}else if(source == enterWheather) {
-			
-				wheatherTextArea.setVisible(false);
+				weatherTextArea.setVisible(false);
 				userEnter1.setVisible(true);
 				userEnter2.setVisible(true);
 				userEnter3.setVisible(true);
 				userEnter4.setVisible(true);
-				
-				
+				enterWheather.setVisible(true);
 			}else if(source == backSevice) {
 				
 				CardLayout flyCardLayout = flyContainer.getCardLayout();
@@ -208,7 +226,7 @@ public class Wheather extends JPanel implements ActionListener{
 		 	userEnter3.setText("Please enter the day");
 		 	userEnter4.setText("Please enter the year");
 		 	
-			wheatherTextArea.setVisible(false);
+			weatherTextArea.setVisible(false);
 			userEnter1.setVisible(true);
 			userEnter2.setVisible(true);
 			userEnter3.setVisible(true);

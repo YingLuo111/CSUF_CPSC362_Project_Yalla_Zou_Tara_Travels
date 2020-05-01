@@ -12,8 +12,11 @@ public class PerInfo extends JPanel implements ActionListener{
 	JButton backPersonalIyInfoHome  = new JButton("<<--Back Information Home");
 	JButton backHome                = new JButton("<<--Back Home");
 	
+	//userEnterName
 	JTextField userEnter1;
+	//userEnterPassport
 	JTextField userEnter2;
+	JTextField userEnterEmail;
 	
 	//JTextArea finishTextArea = new JTextArea("");
 	
@@ -37,12 +40,16 @@ public class PerInfo extends JPanel implements ActionListener{
 	private ImageIcon Picture2;
 	private Image Img2;
 	
+	private DBManager dbmgr;
 	
 	private Fly flyContainer;
 	
-	public PerInfo(Fly container) {
+	public PerInfo(Fly container, DBManager dbmgr) {
 		
 		flyContainer = container;
+		
+		this.dbmgr = dbmgr;
+		
 		setSize(800,800);
 		setLayout(new BorderLayout());
 		
@@ -58,18 +65,20 @@ public class PerInfo extends JPanel implements ActionListener{
 		 
 		userEnter1= new JTextField("Please enter your name Fist Last",12);
 	 	userEnter2= new JTextField("Please enter your pastport number",12);
+	 	userEnterEmail= new JTextField("Please enter your email",12);
 	 	
 		 
 		Picture = new ImageIcon("resources/Images/subtitle.png");
 		Img = Picture.getImage().getScaledInstance(900, 250, java.awt.Image.SCALE_SMOOTH);
 		image.setIcon(new ImageIcon(Img));
 		
-		Picture2 = new ImageIcon("resources/Images/personalImageSorth.png");
+		Picture2 = new ImageIcon("resources/Images/HomeImageSorth.png");
 		Img2 = Picture2.getImage().getScaledInstance(900, 250, java.awt.Image.SCALE_SMOOTH);
 		image2.setIcon(new ImageIcon(Img2));
 		
 		userEnter1.setVisible(true);
 		userEnter2.setVisible(true);
+		userEnterEmail.setVisible(true);
 		
 		panelW.setBackground(new Color(100,149,237));
 		main.setLayout(new BorderLayout());
@@ -78,10 +87,11 @@ public class PerInfo extends JPanel implements ActionListener{
 		
 		
 		panelEnter.setBackground(new Color(100,149,237));
-		panelEnter.setLayout(new GridLayout(3,1));
+		panelEnter.setLayout(new GridLayout(4,1));
 		panelEnter.add(label2);
 		panelEnter.add(userEnter1);
 		panelEnter.add(userEnter2);
+		panelEnter.add(userEnterEmail);
 		
 		
 		panelC.setBackground(new Color(100,149,237));
@@ -118,6 +128,7 @@ public class PerInfo extends JPanel implements ActionListener{
 			setCurUserInfo();
 			String curInfo = getCurInfo();
 			flyContainer.setCurFlightInfo(curInfo);
+			dbmgr.insertBookingInfo(flyContainer.getCurTicket(), flyContainer.getCurService(), flyContainer.getCurUser());
 		}else if(source == backPersonalIyInfoHome) {
 			
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
@@ -154,6 +165,7 @@ public class PerInfo extends JPanel implements ActionListener{
    public void reset() {
 		userEnter1.setText("Please enter your name Fist Last"); 
 	 	userEnter2.setText("Please enter your pastport number");
+	 	userEnterEmail.setText("Please enter your email");
    }
    
    
@@ -171,6 +183,7 @@ public class PerInfo extends JPanel implements ActionListener{
 	   curUser.setFirstName(firstname);
 	   curUser.setLastName(lastname);
 	   curUser.setPassport(userEnter2.getText());
+	   curUser.setEmail(userEnterEmail.getText());
    }
    private String getCurInfo() {
 		  User u = flyContainer.getCurUser();
@@ -197,18 +210,18 @@ public class PerInfo extends JPanel implements ActionListener{
 	  
 	  private String getTicketInfo(Ticket t) {
 		  String departAirport = t.getDepartAirport();
-		  String destAirport = t.getDestAirport();
-		  String departMonth = t.getLeavingMonth();
-		  String departDate = t.getLeavingDate();
-		  String departYear = t.getLeavingYear();
+		  String destAirport = t.getArriveAirport();
+		  String departMonth = t.getDepartMonth();
+		  String departDate = t.getDepartDay();
+		  String departYear = t.getDepartYear();
 		  String seatRow = t.getSeatRow();
 		  String seatCol = t.getSeatCol();
 		  String seatClass = t.getSeatClass();
 		  String returnMonth = "", returnDate = "", returnYear = "";
 		  if (t.isRoundTripTicket() == true) {
-			  returnMonth = t.getReturnMonth();
-			  returnDate = t.getReturnDate();
-			  returnYear = t.getReturnYear();
+			  returnMonth = t.getArriveMonth();
+			  returnDate = t.getArriveDay();
+			  returnYear = t.getArriveYear();
 		  }
 		  
 		  String ticketInfo = "Departure at: " + departAirport + "\t" + "Arrival at: " + destAirport + "\n";
@@ -218,7 +231,7 @@ public class PerInfo extends JPanel implements ActionListener{
 			  ticketInfo += "Return on: " + returnMonth + "/" + returnDate + "/" + returnYear + "\n";
 		  }
 		  ticketInfo += "Cabin class: " + seatClass + "\n";
-		  ticketInfo += "Seat at: Row " + seatRow + " Col " + seatCol;
+		  ticketInfo += formatSeatInfo(seatClass, Integer.parseInt(seatRow), Integer.parseInt(seatCol));
 		  
 		  return ticketInfo;
 		  
@@ -265,5 +278,31 @@ public class PerInfo extends JPanel implements ActionListener{
 		  }
 		  
 		  return serviceInfo;
+	  }
+	  
+	  private String formatSeatInfo(String seatClass, int row, int col) {
+		  String seatInfo = "Seat at: ";
+		  if (seatClass.equals("Economy Class")) {
+			  String seat = String.valueOf(row + 5);
+			  //skip the aisle
+			  if (col <3) {
+				 seat += (char) ('A' + col);  
+			  } else if (col >= 4) {
+				 seat += (char) ('A' + col - 1);
+			  }
+			  seatInfo += seat;
+		  }
+		  
+		  if (seatClass.equals("First Class")) {
+			  String seat = String.valueOf(row + 1);
+			  //skip the aisle
+			  if (col < 2) {
+				 seat += (char) ('A' + col);  
+			  } else if (col >= 3) {
+				 seat += (char) ('A' + col - 1);
+			  }
+			  seatInfo += seat;
+		  }
+		  return seatInfo;
 	  }
 }

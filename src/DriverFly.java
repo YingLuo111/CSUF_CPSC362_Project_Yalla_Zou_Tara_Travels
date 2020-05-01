@@ -1,7 +1,6 @@
 /*
- * Author: YingLuo 12/01/2019
- * Class_223J_Final_Project
- ****                The purpose of the project               ****
+ * Class_362_Final_Project
+ ****               Yalla Zou Tara                          ****
  *****************************************************************
  *This Project is the flight ticket reservation system.
  *The user can using this System booking the flight ticket 
@@ -30,7 +29,9 @@
 public class DriverFly {
 
 	public static void main(String[] args) {
-		Fly f =  new Fly();
+		DBManager dbMgr = DBManager.getDBManager();
+		
+		Fly f =  new Fly(dbMgr);
 		f.setVisible(true);
 
 	}

@@ -7,9 +7,12 @@
  * connetting all of the JPanel of this Program
  */
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
+
 //This is the class of JFrame Fly it is the main class
 public class Fly extends JFrame implements ActionListener {
 	
@@ -19,6 +22,9 @@ public class Fly extends JFrame implements ActionListener {
 	private Ticket curTicket   = new Ticket();
 	/*Initialize the curService is curUser is the class of the Service*/
 	private Service curService = new Service();
+	
+	private Map<Integer, Set<Integer>> reservedFirstClassSeatsMap = new HashMap<>();
+	private Map<Integer, Set<Integer>> reservedEconomyClassSeatsMap = new HashMap<>();
 	
 	//Initialize the JMenuBar and JMenu
 	JMenuBar mainbar    = new JMenuBar();
@@ -52,23 +58,27 @@ public class Fly extends JFrame implements ActionListener {
 	JMenuItem  currentlyFlight     = new JMenuItem("Current Flight");
 	
 	//Creating the all of the JPanel class in this program 
+	Login loginPanel;
+	Signup signupPanel;
+	
 	Home homePanel                          = new Home(this);
 	
-	OneWay oTrip                            = new OneWay(this);
+	OneWay oTrip;
 	RoundTrip rTrip 					    = new RoundTrip(this);
 	
 	Change cTrip                            = new Change(this);
 	OnlineRefound onlineReTrip              = new OnlineRefound(this);       
 	
 	Luggage luggagePanel 					= new Luggage(this); 
-	Wheather wheatherPanel 					= new Wheather(this);
+	Wheather wheatherPanel;
 	Seat seatPanel							= new Seat(this);
+	FlightList FlightListPanel;
 	
 	DisableHelp disableHelpPanel 			= new DisableHelp(this);
 	BabyHelp babyHelpPanel 			        = new BabyHelp(this);
 	FoodService foodHelpPanel			    = new FoodService(this);
 	
-	PerInfo personalInfo 					= new PerInfo(this);
+	PerInfo personalInfo;
 	CurrentlyFightInfo currentlyFightInfo 	= new CurrentlyFightInfo(this);
 	
 	SelectHome selectHome                   = new SelectHome(this);
@@ -81,9 +91,16 @@ public class Fly extends JFrame implements ActionListener {
 	
 	
 	//this is the fly constuctor
-	public Fly() {
+	public Fly(DBManager dbmgr) {
 		//seting the jFrame's title, layout, size and Default colose
 		super(" Yalla Zou Tara Travels ");
+		
+		this.loginPanel      = new Login(this, dbmgr);
+		this.signupPanel     = new Signup(this, dbmgr);
+		this.oTrip           = new OneWay(this, dbmgr);
+		this.personalInfo    = new PerInfo(this, dbmgr);
+		this.wheatherPanel   = new Wheather(this, dbmgr);
+		this.FlightListPanel = new FlightList(this, dbmgr);
 		setLayout(cardLayout);
 		setSize(800,800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -116,6 +133,10 @@ public class Fly extends JFrame implements ActionListener {
 		menu5.add(personalInformation);
 		menu5.add(currentlyFlight);
 		//adding the all of the JPanel i this programe 
+		add(loginPanel, "LoginPanel");
+		add(signupPanel, "SignupPanel");
+		
+		
 		add(homePanel, "HomePanel");
 		
 		add(selectHome, "SelectButtonsHomePanel");
@@ -132,6 +153,7 @@ public class Fly extends JFrame implements ActionListener {
 		add(luggagePanel, "LuggagePanel");
 		add(wheatherPanel, "wheatherPanel");
 		add(seatPanel, "seatPanel");
+		add(FlightListPanel, "FlightListPanel");
 		
 		add(disableHelpPanel, "disableHelpPanel");
 		add(babyHelpPanel, "babyHelpPanel");
@@ -203,6 +225,10 @@ public class Fly extends JFrame implements ActionListener {
 		}else if(source == seat){
 			cardLayout.show(getContentPane(), "seatPanel");	
 			
+			//**************
+		}else if(source == seat){
+			cardLayout.show(getContentPane(), "seatPanel");	
+			
 			/////////////////////////////
 		}else if(source == disable){
 			
@@ -242,6 +268,47 @@ public class Fly extends JFrame implements ActionListener {
 	public void setCurFlightInfo(String info) {
 		currentlyFightInfo.setDisplayedInfo(info);
 	}
+	
+	
+	
+	public void updateFlightListPanel(ArrayList<String> flightList) {
+		this.FlightListPanel.updateFlightList(flightList);
+	}
+	
+	
+	public void setReservedSeatsMap(ArrayList<List<String>> reservedSeats) {
+		this.reservedFirstClassSeatsMap.clear();
+		this.reservedEconomyClassSeatsMap.clear();
+		
+		List<String> reservedFirstClassSeats = reservedSeats.get(0);
+		List<String> reservedEconomyClassSeats = reservedSeats.get(1);
+		
+		for (String seatInfo : reservedFirstClassSeats) {
+			String[] seatPos = seatInfo.split(",");
+			int row = Integer.parseInt(seatPos[0]);
+			int col = Integer.parseInt(seatPos[1]);
+			if (!reservedFirstClassSeatsMap.containsKey(row)) {
+				reservedFirstClassSeatsMap.put(row, new HashSet<Integer>());
+			}
+			reservedFirstClassSeatsMap.get(row).add(col);
+		}
+		
+		for (String seatInfo : reservedEconomyClassSeats) {
+			String[] seatPos = seatInfo.split(",");
+			int row = Integer.parseInt(seatPos[0]);
+			int col = Integer.parseInt(seatPos[1]);
+			if (!reservedEconomyClassSeatsMap.containsKey(row)) {
+				reservedEconomyClassSeatsMap.put(row, new HashSet<Integer>());
+			}
+			reservedEconomyClassSeatsMap.get(row).add(col);	
+		}
+		
+	}
+
+	public void markReservedSeats() {
+		this.seatPanel.markReservedSeats(reservedFirstClassSeatsMap, reservedEconomyClassSeatsMap);
+	}
+	
 	//this is the method to rest all of the actions
 	public void reset() {
 		oTrip.reset();                      

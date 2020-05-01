@@ -11,7 +11,7 @@ public class BabyHelp extends JPanel implements ActionListener, ItemListener{
 	JLabel label1            = new JLabel("The Baby/Child Service ");
 	JLabel label2            = new JLabel(" Plaese choice");
 	JLabel label3            = new JLabel(" what service you want to reserve.V");
-	JButton finish           = new JButton("Finish-->>");
+	JButton finish           = new JButton("finish or Skip to next -->>");
 	JButton backMoreSevice   = new JButton("<<--Back More Sevice");
 	JButton backHome         = new JButton("<<--Back Home");
 	
