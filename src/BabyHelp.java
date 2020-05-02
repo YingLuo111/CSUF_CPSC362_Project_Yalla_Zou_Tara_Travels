@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 //This is the class of the JPanel BabyHelp and implements ActionListener
 public class BabyHelp extends JPanel implements ActionListener, ItemListener{
-	//Initialize all of the JLable, JButton,JComboBox and JPanel
+	//Initializes all of the JLabels, JButtons, JComboBoxes and JPanels
 	
 	JLabel label1            = new JLabel("The Baby/Child Service ");
 	JLabel label2            = new JLabel(" Plaese choice");
@@ -29,20 +29,18 @@ public class BabyHelp extends JPanel implements ActionListener, ItemListener{
     private JCheckBox babyBasket;
     private JCheckBox childUnaccompaniedMinor;
     
-   
     private ImageIcon Picture;
 	private Image Img;
 	private ImageIcon Picture2;
 	private Image Img2;
 	private ImageIcon Picture3;
 	private Image Img3;
-	
-	
+
 	private Fly flyContainer;
+	
 	/*
-	 * This is the constructor  of this class
-	 *this consturctor setting the all of the JLabel's
-	 *JButton's, JPanel's font,backgound, size and layout 
+	 * This is the constructor of this class. It sets all of the JLabels,
+	 * JButtons, JPanels, font, backgound, size and layout 
 	 */
 	public BabyHelp(Fly container) {
 		
@@ -75,9 +73,7 @@ public class BabyHelp extends JPanel implements ActionListener, ItemListener{
 		
 		babyBasket              = new JCheckBox("Baby Basket", false);
 		childUnaccompaniedMinor = new JCheckBox("Unaccompanied Minor", false);
-		
-	 
-		
+
 		main.setLayout(new BorderLayout());
 		
 		panelN.add(image);
@@ -89,7 +85,6 @@ public class BabyHelp extends JPanel implements ActionListener, ItemListener{
 		panelC.add(label3);
 		panelC.add(babyBasket);
 		panelC.add(childUnaccompaniedMinor);
-		
 		
 		panelW.setBackground(new Color(255,240,245));
 		panelW.setLayout(new GridLayout(4, 1));
@@ -116,19 +111,20 @@ public class BabyHelp extends JPanel implements ActionListener, ItemListener{
 		childUnaccompaniedMinor.addItemListener(this);
 		
 	}
+	
 	/*
-	 * This is the actionperformed to execute the button's action 
-	 * if the user click the different buttonSelect go to the  different Select action
+	 * This is the actionperformed to execute the button's actions
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-		
+		// If finish button is selected, foodHelpPanel appears
 		if(source == finish){
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(),"foodHelpPanel");
 			
 			Service curService = flyContainer.getCurService();
+			
 			if (babyBasket.isSelected()) {
 				curService.addBabyService("Baby Basket");
 			}
@@ -136,12 +132,17 @@ public class BabyHelp extends JPanel implements ActionListener, ItemListener{
 				curService.addBabyService("Unaccompanied Child");
 			}
 			
-		}else if(source == backMoreSevice) {
+		}
+		
+		// If back more service button is selected, service home panel appears
+		else if(source == backMoreSevice) {
 			
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(),"seviceHomePanel");
 			
-		}else if(source == backHome) {
+		}
+		// If back home button is selected, home pannel appears
+		else if(source == backHome) {
 			
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(), "HomePanel");
@@ -150,11 +151,8 @@ public class BabyHelp extends JPanel implements ActionListener, ItemListener{
 		}
 		
 	}
-	/*
-	 * This is the method to set the JButton Background 
-	 * This is the method to set the JLabel Background 
-	 * This is the method to set the JTextArea Background 
-	 */
+	
+	//This is the method to set the JButton Background
 	public void setJButtonBackGround(JButton b, Color FC,Color BC) {
 		
 		b.setForeground(FC);       
@@ -162,13 +160,17 @@ public class BabyHelp extends JPanel implements ActionListener, ItemListener{
 		b.setOpaque(true);               
 		b.setBorderPainted(false);        
 	}
-   public void setJLableBackGround(JLabel l, Color FC,Color BC) {
+	
+	// This is the method to set the JLabel background
+ 	public void setJLableBackGround(JLabel l, Color FC,Color BC) {
 		l.setOpaque(true);  
 		l.setBackground(BC);
 		l.setForeground(FC);
 		
 	}
-   public void setJTextAreaBackGround(JTextArea t, Color FC,Color BC) {
+	
+	// This is the method to set the JTextArea background
+   	public void setJTextAreaBackGround(JTextArea t, Color FC,Color BC) {
 		t.setOpaque(true);  
 		t.setBackground(BC);
 		t.setForeground(FC);
@@ -184,5 +186,4 @@ public class BabyHelp extends JPanel implements ActionListener, ItemListener{
 		babyBasket.setSelected(false);              
 		childUnaccompaniedMinor.setSelected(false); 
 	}
-
 }
