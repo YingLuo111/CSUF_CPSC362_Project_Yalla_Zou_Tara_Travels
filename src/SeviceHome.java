@@ -1,34 +1,34 @@
 /*
- * This is the class of the sevice homeJPanel 
- * this class set the some choice button
- * let the user can choice any of them to go to 
- * subJpanle of the sevice JPanle
- * and can enter or select what thing they want 
- * booking or to see or want to choice.
+ * This is the class of the Service Home JPanel. 
+ * It allows the user to navigate the Service Home and 
+ * select different services to customize their flight details 
  */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-//This is the class of the JPanel SeviceHome and implements ActionListener
+//This is the class of the JPanel ServiceHome. It implements ActionListener
 public class SeviceHome extends JPanel implements ActionListener{
-	//Initialize the JLabel
+	
+	// Initializing all of the JLabels, JButtons, JPanels 
+	// Imaages and ImageIcons
 	private JLabel label1 = new JLabel("             Special assistance. ");
-	//Initialize the JButton
+	
 	private JButton disableHelp     = new JButton("Disability Support");
-	private JButton seviceBaby      = new JButton("Sevice Baby/child");
+	private JButton seviceBaby      = new JButton("Services for Baby/child");
 	private JButton seviceFood      = new JButton("Meal Plan");
 	private JButton backHome        = new JButton("<<--Back Service");
-	//Initialize the JLabel
+	
 	private JLabel image = new JLabel(" ");
 	private JLabel image2 = new JLabel(" ");
 	private JLabel image3 = new JLabel(" ");
-	//Initialize the JPanel
+	
 	private JPanel main = new JPanel();
 	private JPanel panelC = new JPanel();
 	private JPanel panelN = new JPanel();
 	private JPanel panelW = new JPanel();
 	private JPanel panelS = new JPanel();
-	//Initialize the Image and Image
+	
 	private ImageIcon Picture;
 	private Image Img;
 	private ImageIcon Picture2;
@@ -36,21 +36,27 @@ public class SeviceHome extends JPanel implements ActionListener{
 	private ImageIcon Picture3;
 	private Image Img3;
 	
+	// Making a container of type Fly
 	private Fly flyContainer;
-	//constuctor the SeviceHome	
+	
+	/*
+	 * This is the constructor of this class.
+	 * The constructor sets all of the JLabels,JButtons,
+	 * ImageIcons, JPanels, font, backgound, size and layout 
+	 */
 	public SeviceHome(Fly container) {
 		flyContainer = container;
 		setSize(800,800);
 		setLayout(new BorderLayout());
-		//setting the label1 font
+		
 		 label1.setFont(new Font("Arial", Font.BOLD, 25));
-		//setting the JButton's and JLabel's background
+		
 		 setJLableBackGround(label1, Color.BLACK,new Color(230,230,250));
 		 setJButtonBackGround(disableHelp, Color.BLACK,new Color(230,230,250));
 		 setJButtonBackGround(seviceBaby, Color.BLACK,new Color(230,230,250));
 		 setJButtonBackGround(seviceFood, Color.BLACK,new Color(230,230,250));
 		 setJButtonBackGround(backHome, Color.BLACK,new Color(230,230,250));
-		//setting the the picture fxed the size  adding the Icon to each picture
+		
 		Picture = new ImageIcon("resources/Images/subtitle.png");
 		Img = Picture.getImage().getScaledInstance(900, 250, java.awt.Image.SCALE_SMOOTH);
 		image.setIcon(new ImageIcon(Img));
@@ -62,11 +68,7 @@ public class SeviceHome extends JPanel implements ActionListener{
 		Picture3 = new ImageIcon("resources/Images/selectImageWest.png");
 		Img3 = Picture3.getImage().getScaledInstance(300, 400, java.awt.Image.SCALE_SMOOTH);
 		image3.setIcon(new ImageIcon(Img3));
-		/*
-		* setting the subPanel's layout and adding the button label to each one
-		* setting the PanelW/panelN/PanelS/PanelC
-		* and adding all of the button and label to dfferent part
-		*/
+	
 		panelW.setBackground(new Color(230,230,250));
 		main.setLayout(new BorderLayout());
 		panelN.add(image);
@@ -86,58 +88,59 @@ public class SeviceHome extends JPanel implements ActionListener{
 		main.add(panelC, BorderLayout.CENTER);
 		
 		add(main);
-		//Adding the action listenner for each button
+	
 		disableHelp.addActionListener(this);
 		seviceBaby.addActionListener(this);
 		seviceFood.addActionListener(this);
 		backHome.addActionListener(this);
 		
 	}
-	/*
-	 * This is the actionperformed to execute the button's action 
-	 * if the user click the different buttonSelect go to the  different Select subPanel
-	 */
+	// This is the actionperformed method to execute the user's action 
+	// when selecting a JButton 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		 Object source = e.getSource();
-			
-			if(source == disableHelp){
-				CardLayout flyCardLayout = flyContainer.getCardLayout();
-				flyCardLayout.show(flyContainer.getContentPane(),"disableHelpPanel");
-			}else if(source == seviceBaby){
-				CardLayout flyCardLayout = flyContainer.getCardLayout();
-				flyCardLayout.show(flyContainer.getContentPane(),"babyHelpPanel");
-			}else if(source == seviceFood) {
-				CardLayout flyCardLayout = flyContainer.getCardLayout();
-				flyCardLayout.show(flyContainer.getContentPane(),"foodHelpPanel");
-			}else if(source == backHome) {
-				CardLayout flyCardLayout = flyContainer.getCardLayout();
-				flyCardLayout.show(flyContainer.getContentPane(), "HomePanel");
-				//reset the information
-				flyContainer.reset();
-			}
+		Object source = e.getSource();
 		
+		// If the user selects the "Disable Help" Button, "disableHelpPanel" appears 
+		if(source == disableHelp){
+			CardLayout flyCardLayout = flyContainer.getCardLayout();
+			flyCardLayout.show(flyContainer.getContentPane(),"disableHelpPanel");
+		}
+		
+		// If the user selects the "Service Baby" button, "babyHelpPanel" appears
+		else if(source == seviceBaby){
+			CardLayout flyCardLayout = flyContainer.getCardLayout();
+		        flyCardLayout.show(flyContainer.getContentPane(),"babyHelpPanel");
+		}
+		
+		// If the user selects the "Service Food" button, "foodHelpPanel" appears
+		else if(source == seviceFood) {
+		        CardLayout flyCardLayout = flyContainer.getCardLayout();
+			flyCardLayout.show(flyContainer.getContentPane(),"foodHelpPanel");
+		}
+		
+		// If user selects the "Back Home" button, "HomePanel" appears 
+		else if(source == backHome) {
+			CardLayout flyCardLayout = flyContainer.getCardLayout();
+			flyCardLayout.show(flyContainer.getContentPane(), "HomePanel");
+			
+			// Information resets
+			flyContainer.reset();
+		}
 	}
-	/*
-	 * This is the method to set the JButton Background 
-	 */
-	 public void setJButtonBackGround(JButton b, Color FC,Color BC) {
-			
-			b.setForeground(FC);       
-			b.setBackground(BC);       
-			b.setOpaque(true);               
-			b.setBorderPainted(false);        
-		}
-	 /*
-		 * This is the method to set the JLabel Background 
-		 */
-	   public void setJLableBackGround(JLabel l, Color FC,Color BC) {
-			l.setOpaque(true);  
-			l.setBackground(BC);
-			l.setForeground(FC);
-			
-		}
-	  
-
+	
+	// Method to set JButton background 
+	public void setJButtonBackGround(JButton b, Color FC,Color BC) {
+		b.setForeground(FC);       
+		b.setBackground(BC);       
+		b.setOpaque(true);               
+		b.setBorderPainted(false);        
+	}
+	
+	// Method to set JLabel background
+	public void setJLableBackGround(JLabel l, Color FC,Color BC) {
+		l.setOpaque(true);  
+		l.setBackground(BC);
+		l.setForeground(FC);
+	}
 }
-
