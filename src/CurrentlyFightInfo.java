@@ -112,6 +112,7 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
 		} else if (source == shareWithEmail) {
 			String curInfo = getCurInfo();
 			SendEmail.send(flyContainer.getCurUser().getEmail(), curInfo);
+			JOptionPane.showMessageDialog(null, "Your booking infomation has been send to " + flyContainer.getCurUser().getEmail());
 		}
 		
 	}

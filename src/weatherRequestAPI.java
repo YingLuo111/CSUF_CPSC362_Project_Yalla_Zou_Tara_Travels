@@ -37,7 +37,6 @@ public class WeatherRequestAPI {
 				result.append(line);
 			}
 			rd.close();
-//			System.out.println(result);
 			
 			Map<String, Object> respMap = jsonToMap (result.toString());
 			List<Object> weatherList = (List<Object>)respMap.get("weather");

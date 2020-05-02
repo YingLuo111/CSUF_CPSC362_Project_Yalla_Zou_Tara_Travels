@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 //This is the class of the JPanel Weather and implements ActionListener
 public class Wheather extends JPanel implements ActionListener{
-	//Initialize all of the JLable, JButton,JComboBox and JPanel
+		//Initialize all of the JLable, JButton,JComboBox and JPanel
 	    JLabel label1 = new JLabel("  The Weather Information ");
 	    JLabel label2 = new JLabel("  Enter City and Date agina ");
 		
@@ -158,13 +158,7 @@ public class Wheather extends JPanel implements ActionListener{
 				userEnter4.setVisible(false);
 				enterWheather.setVisible(false);
 				weatherTextArea.setVisible(true);
-//				weatherTextArea.setText("On "+ userEnter2.getText()+ " - " +userEnter3.getText()+" - "+
-//						                 userEnter4.getText()+"\n"+ "The "+ userEnter1.getText() + "'s Weather is\n"+
-//						                 "45°\n" + 
-//						                 "RAIN\n" + 
-//						                 "feels like 40°\n" + 
-//						                 "H -- L 44°\n" + 
-//						                 "UV Index 0 of 10");
+
 				String dest = "";
 				if (!this.destCity.equals("Please enter the City/Airport")) {
 					dest = this.destCity;

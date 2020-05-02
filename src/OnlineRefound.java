@@ -6,6 +6,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
+
 //This is the class of the JPanel Oneline Rdfound and implements ActionListener
 public class OnlineRefound extends JPanel implements ActionListener{
 	//Initialize all of the JLable, JButton,JComboBox and JPanel
@@ -14,10 +16,12 @@ public class OnlineRefound extends JPanel implements ActionListener{
 		
 		
 	private JButton subMit                = new JButton(" Submit");
-	private JButton reEnter               = new JButton(" Reenter");
+	private JButton TicketToCancel               = new JButton(" Ticket to cancel");
 	private JButton backSevice            = new JButton("<<--Back Sevice Home");
 	private JButton backHome              = new JButton("<<--Back Home");
-		
+	private JButton doCancel              = new JButton("Cancel Ticket");	
+	
+	
 	private JTextField userEnter1;
 	private JTextField userEnter2;
 	private JTextField userEnter3;
@@ -48,14 +52,18 @@ public class OnlineRefound extends JPanel implements ActionListener{
 		
 		
 		private Fly flyContainer;
+		private DBManager dbmgr;
+		
 		/*
 		 * This is the constructor  of this class
 		 *this consturctor setting the all of the JLabel's
 		 *JButton's, JPanel's font,backgound, size and layout 
 		 */
-		public OnlineRefound(Fly container) {
+		public OnlineRefound(Fly container, DBManager dbmgr) {
 			
 			flyContainer = container;
+			this.dbmgr = dbmgr;
+			
 			setSize(800,800);
 			setLayout(new BorderLayout());
 			
@@ -68,12 +76,13 @@ public class OnlineRefound extends JPanel implements ActionListener{
 			 setJTextAreaBackGround(subMitTextArea, Color.BLACK,new Color(135,206,250));
 			 
 			 setJButtonBackGround(subMit, Color.BLACK,new Color(135,206,250));
-			 setJButtonBackGround(reEnter, Color.BLACK,new Color(135,206,250));
+			 setJButtonBackGround(TicketToCancel, Color.BLACK,new Color(135,206,250));
 			 setJButtonBackGround(backSevice, Color.BLACK,new Color(135,206,250));
 			 setJButtonBackGround(backHome, Color.BLACK,new Color(135,206,250));
+			 setJButtonBackGround(doCancel, Color.BLACK,new Color(135,206,250));
 			 
 			userEnter1= new JTextField("Please your Name",12);
-			userEnter5= new JTextField("Please your Ticket number",12);
+			userEnter5= new JTextField("Please your Flight",12);
 		 	userEnter2= new JTextField("Please enter the month",12);
 		 	userEnter3= new JTextField("Please enter the day",12);
 		 	userEnter4= new JTextField("Please enter the year",12);
@@ -90,6 +99,7 @@ public class OnlineRefound extends JPanel implements ActionListener{
 			userEnter2.setVisible(true);
 			userEnter3.setVisible(true);
 			userEnter4.setVisible(true);
+			userEnter5.setVisible(true);
 			
 			panelW.setBackground(new Color(135,206,250));
 			main.setLayout(new BorderLayout());
@@ -98,12 +108,14 @@ public class OnlineRefound extends JPanel implements ActionListener{
 			
 			
 			panelEnter.setBackground(new Color(135,206,250));
-			panelEnter.setLayout(new GridLayout(5,1));
+			panelEnter.setLayout(new GridLayout(7,1));
 			panelEnter.add(label2);
 			panelEnter.add(userEnter1);
+			panelEnter.add(userEnter5);
 			panelEnter.add(userEnter2);
 			panelEnter.add(userEnter3);
 			panelEnter.add(userEnter4);
+			panelEnter.add(doCancel);
 			
 			panelShow.setBackground(new Color(135,206,250));
 			panelShow.add(subMitTextArea,BorderLayout.CENTER);
@@ -117,7 +129,7 @@ public class OnlineRefound extends JPanel implements ActionListener{
 			
 			panelW.setLayout(new GridLayout(5, 1));
 			panelW.add(label1);
-			panelW.add(reEnter);
+			panelW.add(TicketToCancel);
 			panelW.add(subMit);
 			panelW.add(backSevice);
 			panelW.add(backHome);
@@ -131,9 +143,10 @@ public class OnlineRefound extends JPanel implements ActionListener{
 			
 			
 			subMit.addActionListener(this);
-			reEnter.addActionListener(this);
+			TicketToCancel.addActionListener(this);
 			backHome.addActionListener(this);
 			backSevice.addActionListener(this);
+			doCancel.addActionListener(this);
 			
 		}
 		/*
@@ -159,26 +172,35 @@ public class OnlineRefound extends JPanel implements ActionListener{
 						                 "Hope you will choice our Company next time.\n"+
 						                 "Have a nice day. =^.^= ");
 				
-			}else if(source == reEnter) {
+			}else if(source == doCancel) {
 			
 				subMitTextArea.setVisible(false);
 				userEnter1.setVisible(true);
 				userEnter5.setVisible(true);
 				userEnter2.setVisible(true);
 				userEnter3.setVisible(true);
-				userEnter4.setVisible(true);
+				userEnter4.setVisible(true);	
 				
+				String name = userEnter1.getText();
+				String flight = userEnter5.getText();
 				
-			}else if(source == reEnter) {
-			
-				subMitTextArea.setVisible(false);
-				userEnter1.setVisible(true);
-				userEnter5.setVisible(true);
-				userEnter2.setVisible(true);
-				userEnter3.setVisible(true);
-				userEnter4.setVisible(true);
+				Map<String, String> ticketInfo = dbmgr.queryBookingInfo(name, flight);
 				
-				
+				if (ticketInfo.size() != 0) {
+					String ticketInfoStr = getInfoFromMap(ticketInfo);
+					
+					int decision = JOptionPane.showConfirmDialog (null, "Do you want to CANCEL the booking below?\n" +ticketInfoStr,"WARNING",JOptionPane.YES_NO_OPTION);
+
+					if(decision == JOptionPane.YES_OPTION) {
+						if (dbmgr.deleteBookingInfo(name, flight)) {
+							JOptionPane.showMessageDialog(null, "Your booking has been cancelled.");
+						} else {
+							JOptionPane.showMessageDialog(null, "Your booking could not been cancelled because an error occured. \nPlease make sure the information is correct and try again.");
+						}
+					}	
+				} else {
+					JOptionPane.showMessageDialog(null, "No booked ticket for passenger " + name + " on flight " + flight);
+				}
 			}else if(source == backSevice) {
 				
 				CardLayout flyCardLayout = flyContainer.getCardLayout();
@@ -193,6 +215,25 @@ public class OnlineRefound extends JPanel implements ActionListener{
 			}
 			
 		}
+		
+		private String getInfoFromMap(Map<String, String> ticketInfoMap) {
+			StringBuilder sb = new StringBuilder();
+			  sb.append("Passenger Name: " + ticketInfoMap.get("Passenger_Name") + "\n");
+			  sb.append("Depart Airport: " + ticketInfoMap.get("Depart_Airport") + "\n");
+			  sb.append("Arrive Airport: " + ticketInfoMap.get("Arrive_Airport") + "\n");
+			  sb.append("Flight: " +  ticketInfoMap.get("Flight") + "\n");
+			  sb.append("Depart Date: " + ticketInfoMap.get("Depart_Date") + "\n");
+			  sb.append("Price: $" + ticketInfoMap.get("Price") + "\n");
+			  sb.append("Aircompany: " + ticketInfoMap.get("Aircompany") + "\n");
+			  sb.append("Seat: " + ticketInfoMap.get("Seat") + "\n");
+			  sb.append("Food Service: " + ticketInfoMap.get("Food_Service") + "\n");
+			  sb.append("Baby Service: " + ticketInfoMap.get("Baby_Service") + "\n");
+			  sb.append("Disable Service: " + ticketInfoMap.get("Disable_Service"));
+			return sb.toString();
+		}
+		
+		
+		
 		/*
 		 * This is the method to set the JButton Background 
 		 * This is the method to set the JLabel Background 

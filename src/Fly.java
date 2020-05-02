@@ -67,7 +67,7 @@ public class Fly extends JFrame implements ActionListener {
 	RoundTrip rTrip 					    = new RoundTrip(this);
 	
 	Change cTrip                            = new Change(this);
-	OnlineRefound onlineReTrip              = new OnlineRefound(this);       
+	OnlineRefound onlineReTrip;    
 	
 	Luggage luggagePanel 					= new Luggage(this); 
 	Wheather wheatherPanel;
@@ -101,6 +101,8 @@ public class Fly extends JFrame implements ActionListener {
 		this.personalInfo    = new PerInfo(this, dbmgr);
 		this.wheatherPanel   = new Wheather(this, dbmgr);
 		this.FlightListPanel = new FlightList(this, dbmgr);
+		this.onlineReTrip    = new OnlineRefound(this, dbmgr); 
+		
 		setLayout(cardLayout);
 		setSize(800,800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

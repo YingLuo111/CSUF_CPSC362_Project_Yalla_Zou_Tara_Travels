@@ -104,29 +104,7 @@ public class FlightList extends JPanel implements ActionListener, ItemListener{
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		Object source = e.getSource();
-		int select = e.getStateChange();
-//		if(source == Fight1) {
-//			if (select ==ItemEvent.SELECTED) {
-//				
-//			}
-//		}else if (source == Fight2) {
-//			if (select == ItemEvent.SELECTED) {
-//				
-//			}
-//		}else if (source == Fight3) {
-//			if (select == ItemEvent.SELECTED) {
-//				
-//			}
-//		}else if (source == Fight4) {
-//			if (select == ItemEvent.SELECTED) {
-//				
-//			}
-//		}else if (source == Fight5) {
-//			if (select == ItemEvent.SELECTED) {
-//				
-//			}
-//		}
-		
+		int select = e.getStateChange();	
 	}
 	/*
 	 * This is the actionperformed to execute the button's action 

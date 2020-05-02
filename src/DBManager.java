@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.*;
 
 public class DBManager {
   private static DBManager dbmgr = null;
@@ -24,23 +25,6 @@ public class DBManager {
   private DBManager() {
 	  try {
 		  connect = DriverManager.getConnection("jdbc:mysql://" + host, user, passwd );  
-//	      // Statements allow to issue SQL queries to the database
-//	      statement = connect.createStatement();
-//	      // Result set get the result of the SQL query
-//	      resultSet = statement
-//	          .executeQuery("select * from user_info");
-//	      while (resultSet.next()) {
-//	        // It is possible to get the columns via name
-//	        // also possible to get the columns via the column number
-//	        // which starts at 1
-//	        // e.g. resultSet.getSTring(2);
-//	        String user = resultSet.getString("user_name");
-//	        String pass = resultSet.getString("pass");
-//	        String email = resultSet.getString("email");
-//	        System.out.println("User: " + user);
-//	        System.out.println("Password: " + pass);
-//	        System.out.println("Email: " + email);
-//	      }
 	  } catch (SQLException e) {
 		  System.out.println("Error: Failed to connect db on AWS ec2.");
       }	  
@@ -53,102 +37,8 @@ public class DBManager {
 	  return dbmgr;
   }
   
-//  public void readDataBase() throws Exception {
-//    try {
-//      // This will load the MySQL driver, each DB has its own driver
-//      Class.forName("com.mysql.jdbc.Driver");
-//      
-//      // Setup the connection with the DB
-//      connect = DriverManager
-//          .getConnection("jdbc:mysql://" + host + "/feedback?"
-//              + "user=" + user + "&password=" + passwd );
-//
-//      // Statements allow to issue SQL queries to the database
-//      statement = connect.createStatement();
-//      // Result set get the result of the SQL query
-//      resultSet = statement
-//          .executeQuery("select * from feedback.comments");
-//      writeResultSet(resultSet);
-//
-//      // PreparedStatements can use variables and are more efficient
-//      preparedStatement = connect
-//          .prepareStatement("insert into  feedback.comments values (default, ?, ?, ?, ? , ?, ?)");
-//      // "myuser, webpage, datum, summary, COMMENTS from feedback.comments");
-//      // Parameters start with 1
-//      preparedStatement.setString(1, "Test");
-//      preparedStatement.setString(2, "TestEmail");
-//      preparedStatement.setString(3, "TestWebpage");
-//      preparedStatement.setDate(4, new java.sql.Date(2009, 12, 11));
-//      preparedStatement.setString(5, "TestSummary");
-//      preparedStatement.setString(6, "TestComment");
-//      preparedStatement.executeUpdate();
-//
-//      preparedStatement = connect
-//          .prepareStatement("SELECT myuser, webpage, datum, summary, COMMENTS from feedback.comments");
-//      resultSet = preparedStatement.executeQuery();
-//      writeResultSet(resultSet);
-//
-//      // Remove again the insert comment
-//      preparedStatement = connect
-//      .prepareStatement("delete from feedback.comments where myuser= ? ; ");
-//      preparedStatement.setString(1, "Test");
-//      preparedStatement.executeUpdate();
-//      
-//      resultSet = statement
-//      .executeQuery("select * from feedback.comments");
-//      writeMetaData(resultSet);
-//      
-//    } catch (Exception e) {
-//      throw e;
-//    } finally {
-//      close();
-//    }
-//
-//  }
-//
-//  private void writeMetaData(ResultSet resultSet) throws SQLException {
-//    //   Now get some metadata from the database
-//    // Result set get the result of the SQL query
-//    
-//    System.out.println("The columns in the table are: ");
-//    
-//    System.out.println("Table: " + resultSet.getMetaData().getTableName(1));
-//    for  (int i = 1; i<= resultSet.getMetaData().getColumnCount(); i++){
-//      System.out.println("Column " +i  + " "+ resultSet.getMetaData().getColumnName(i));
-//    }
-//  }
-//
-//  private void writeResultSet(ResultSet resultSet) throws SQLException {
-//    // ResultSet is initially before the first data set
-//    while (resultSet.next()) {
-//      // It is possible to get the columns via name
-//      // also possible to get the columns via the column number
-//      // which starts at 1
-//      // e.g. resultSet.getSTring(2);
-//      String user = resultSet.getString("myuser");
-//      String website = resultSet.getString("webpage");
-//      String summary = resultSet.getString("summary");
-//      Date date = resultSet.getDate("datum");
-//      String comment = resultSet.getString("comments");
-//      System.out.println("User: " + user);
-//      System.out.println("Website: " + website);
-//      System.out.println("Summary: " + summary);
-//      System.out.println("Date: " + date);
-//      System.out.println("Comment: " + comment);
-//    }
-//  }
-
-  // You need to close the resultSet
   private void close() {
     try {
-//      if (resultSet != null) {
-//        resultSet.close();
-//      }
-//
-//      if (statement != null) {
-//        statement.close();
-//      }
-
       if (connect != null) {
         connect.close();
       }
@@ -234,7 +124,6 @@ public class DBManager {
 		  while (resultSet.next()) {
 			  String ticketInfo = "";
 			  ticketInfo += resultSet.getString("Flight") + "                              ";
-//			  ticketInfo += resultSet.getDate("Depart_Time") + " ";
 			  ticketInfo += resultSet.getDouble("Price") + "                    ";
 			  ticketInfo += resultSet.getString("Aircompany") + " ";
 			  
@@ -317,8 +206,7 @@ public class DBManager {
 		  bookedDisabledFacilities = bookedDisabledFacilities.substring(0, bookedDisabledFacilities.length() - 1);
 	  }
 	  bookedDisabledFacilities = bookedDisabledFacilities.length() == 0 ? "N/A" : bookedDisabledFacilities;
-		
-	  //String queryStr = "insert into Booking_Info (user_id, user_name, pass, email) values (default, \"" + username + "\", \"" + password + "\", \"" + email + "\")"
+	
 	  String queryStr = "INSERT INTO Booking_Info (" +
 							"Booking_ID, Passenger_Name, Passenger_Passport, Passenger_Email, Depart_Airport, Arrive_Airport," +
 							"Flight, Depart_Date, Depart_Time, Arrive_Date, Arrive_Time, Price, Aircompany, Seat," +
@@ -381,5 +269,57 @@ public class DBManager {
 	  }
 
 	  return reservedSeats;
+  }
+  
+  public Map<String, String> queryBookingInfo(String name, String flight) {
+	  Map<String, String> result = new HashMap<>();
+	  String queryStr = "select * from Booking_Info where Passenger_Name=\"" + name + "\"" + " and Flight=\"" + flight +"\"";
+	  try {
+		  preparedStatement = connect
+				  .prepareStatement(queryStr);
+		  resultSet = preparedStatement.executeQuery();
+		  while (resultSet.next()) {
+			  result.put("Booking_ID", resultSet.getString("Booking_ID"));
+			  result.put("Passenger_Name", resultSet.getString("Passenger_Name"));
+			  result.put("Passenger_Passport", resultSet.getString("Passenger_Passport"));
+			  result.put("Passenger_Email", resultSet.getString("Passenger_Email"));
+			  result.put("Depart_Airport", resultSet.getString("Depart_Airport"));
+			  result.put("Arrive_Airport", resultSet.getString("Arrive_Airport"));
+			  result.put("Flight", resultSet.getString("Flight"));
+			  result.put("Depart_Date", resultSet.getString("Depart_Date"));
+			  result.put("Depart_Time", resultSet.getString("Depart_Time"));
+			  result.put("Arrive_Date", resultSet.getString("Arrive_Date"));
+			  result.put("Arrive_Time", resultSet.getString("Arrive_Time"));
+			  result.put("Price", resultSet.getString("Price"));
+			  result.put("Aircompany", resultSet.getString("Aircompany"));
+			  result.put("Seat", resultSet.getString("Seat"));
+			  result.put("Food_Service", resultSet.getString("Food_Service"));
+			  result.put("Baby_Service", resultSet.getString("Baby_Service"));
+			  result.put("Disable_Service", resultSet.getString("Disable_Service"));
+			  break;
+		  }
+	  } catch (Exception e) {
+		  System.out.println("Error: Failed to query booking info from DB!");
+		  return result;  
+	  }
+	  
+	  return result;
+  }
+  
+  public boolean deleteBookingInfo(String name, String flight) {
+	  boolean result = false;
+	  String queryStr = "delete from Booking_Info where Passenger_Name=\"" + name + "\"" + " and Flight=\"" + flight +"\"";
+	  try {
+		  preparedStatement = connect
+				  .prepareStatement(queryStr);
+		  if (preparedStatement.executeUpdate() > 0) {
+			  result = true;
+		  }
+	  } catch (Exception e) {
+		  System.out.println("Error: Failed to query booking info from DB!");
+		  return result;  
+	  }
+	  
+	  return result;
   }
 }
