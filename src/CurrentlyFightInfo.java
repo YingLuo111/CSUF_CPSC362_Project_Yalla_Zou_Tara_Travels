@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class CurrentlyFightInfo extends JPanel implements ActionListener{
 	JLabel label1 = new JLabel(" Congratulations ! ");
-    JLabel label2 = new JLabel("  Enter City and Date agina ");
+    JLabel label2 = new JLabel("  Enter City and Date again ");
 	
 	
     JButton finish                  = new JButton(" Finish and Payment-->>");
