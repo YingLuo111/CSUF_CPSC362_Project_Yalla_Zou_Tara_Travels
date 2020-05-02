@@ -1,17 +1,17 @@
-/*
- * This the sub JPanel for the JPanel food service
- */
+// This is the subJPanel for the JPanel FoodService 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-//This is the class of the JPanel FoodService and implements ActionListener
+
+// This is the class of the JPanel FoodService. It implements ActionListener and Itemlistener 
 public class FoodService extends JPanel implements ActionListener, ItemListener{
-	//Initialize all of the JLable, JButton,JComboBox and JPanel
 	
+	// Initializing all of the JLabels, JButtons, JPanels, ImageIcons, Images, and JCheckBoxes 
 	private JLabel label1            = new JLabel("The Food Service ");
-	private JLabel label2            = new JLabel(" Plaese choice");
-	private JLabel label3            = new JLabel(" what service you want to reserve.V");
-	private JButton finish           = new JButton("finish or Skip to next -->>");
+	private JLabel label2            = new JLabel(" Please Select One ");
+	private JLabel label3            = new JLabel(" Which food platter would you like to reserve?");
+	private JButton finish           = new JButton(" Finish or Skip to next -->>");
 	private JButton backMoreSevice   = new JButton("<<--Back More Sevice");
 	private JButton backHome         = new JButton("<<--Back Home");
 	
@@ -26,7 +26,7 @@ public class FoodService extends JPanel implements ActionListener, ItemListener{
 	private JPanel panelE = new JPanel();
 	private JPanel panelS = new JPanel();
 	
-    private ImageIcon Picture;
+    	private ImageIcon Picture;
 	private Image Img;
 	private ImageIcon Picture2;
 	private Image Img2;
@@ -39,12 +39,13 @@ public class FoodService extends JPanel implements ActionListener, ItemListener{
 	private JCheckBox VGML;
 	private JCheckBox SFML;
 	
-	
+	// Making a container of type Fly
 	private Fly flyContainer;
+	
 	/*
-	 * This is the constructor  of this class
-	 *this consturctor setting the all of the JLabel's
-	 *JButton's, JPanel's font,backgound, size and layout 
+	 * This is the constructor of this class.
+	 * The consturctor sets all of the JLabels, JButtons, 
+	 * JPanels, JCheckBoxes, Images, font, backgound, size and layout 
 	 */
 	public FoodService(Fly container) {
 		
@@ -75,13 +76,11 @@ public class FoodService extends JPanel implements ActionListener, ItemListener{
 		Img3 = Picture3.getImage().getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
 		image3.setIcon(new ImageIcon(Img3));
 		
-		
 		BBML = new JCheckBox("Baby Meal",false);
 		FPML = new JCheckBox("Fruit Platter Meal",false);
 		LFML = new JCheckBox("Low Fat Meal",false);
 		VGML = new JCheckBox("Vegetarian Meal",false);
 		SFML = new JCheckBox("Seafood Meal",false);
-		
 		
 		panelW.setBackground(new Color(255,240,245));
 		main.setLayout(new BorderLayout());
@@ -123,52 +122,45 @@ public class FoodService extends JPanel implements ActionListener, ItemListener{
 		LFML.addItemListener(this);
 		VGML.addItemListener(this);
 		SFML.addItemListener(this);
-		
 	}
+	
 	/*
-	 * This is the actionperformed to execute the button's action 
-	 * if the user click the different ItemSelect go to the  different Select
+	 * This is the itemStateChanged. If an item is selected,
+	 * it logs it in as SELECTED
 	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		Object source = e.getSource();
 		int select = e.getStateChange();
 		if(source == BBML) {
-			if (select ==ItemEvent.SELECTED) {
-				
-			}
-		}else if (source == FPML) {
-			if (select == ItemEvent.SELECTED) {
-				
-			}
-		}else if (source == LFML) {
-			if (select == ItemEvent.SELECTED) {
-				
-			}
-		}else if (source == VGML) {
-			if (select == ItemEvent.SELECTED) {
-				
-			}
-		}else if (source == SFML) {
-			if (select == ItemEvent.SELECTED) {
-				
-			}
+			if (select ==ItemEvent.SELECTED) {}
 		}
-		
+		else if (source == FPML) {
+			if (select == ItemEvent.SELECTED) {}
+		}
+		else if (source == LFML) {
+			if (select == ItemEvent.SELECTED) {}
+		}
+		else if (source == VGML) {
+			if (select == ItemEvent.SELECTED) {}
+		}
+		else if (source == SFML) {
+			if (select == ItemEvent.SELECTED) {}
+		}
 	}
-	/*
-	 * This is the actionperformed to execute the button's action 
-	 * if the user click the different buttonSelect go to the  different Select action
-	 */
+	
+	// This is the actionperformed method to execute the button's action when selected 
 	@Override
 	public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 		
+		// If user selects the "Finish" button, "peronalInfo" panel appears
 		if(source == finish){
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(),"personalInfo");
-			
 			Service curService = flyContainer.getCurService();
+			
+			// If a food type is selected, that item is added to the current user's information 
 			if (BBML.isSelected()) {
 				curService.addBookedFood("Baby Meal");
 			}
@@ -184,52 +176,52 @@ public class FoodService extends JPanel implements ActionListener, ItemListener{
 			if (SFML.isSelected()) {
 				curService.addBookedFood("Seafood Meal");
 			}
-		}else if(source == backMoreSevice) {
-			
-			CardLayout flyCardLayout = flyContainer.getCardLayout();
-			flyCardLayout.show(flyContainer.getContentPane(),"seviceHomePanel");
-			
-		}else if(source == backHome) {
-			
-			CardLayout flyCardLayout = flyContainer.getCardLayout();
-			flyCardLayout.show(flyContainer.getContentPane(), "HomePanel");
-			//reset the information
-			flyContainer.reset();
 		}
 		
-	}
-	/*
-	 * This is the method to set the JButton Background 
-	 * This is the method to set the JLabel Background 
-	 * This is the method to set the JTextArea Background 
-	 */
-	public void setJButtonBackGround(JButton b, Color FC,Color BC) {
+		// If user selects the "Back More Service" button, "serviceHomePanel" appears 
+		else if(source == backMoreSevice) {
+			CardLayout flyCardLayout = flyContainer.getCardLayout();
+			flyCardLayout.show(flyContainer.getContentPane(),"seviceHomePanel");	
+		}
 		
+		// If user selects the "Back Home" button, "HomePanel" appears
+		else if(source == backHome) {
+			CardLayout flyCardLayout = flyContainer.getCardLayout();
+			flyCardLayout.show(flyContainer.getContentPane(), "HomePanel");
+			
+			// The information resets 
+			flyContainer.reset();
+		}
+	}
+	
+	// Method to set JButton background
+	public void setJButtonBackGround(JButton b, Color FC,Color BC) {
 		b.setForeground(FC);       
 		b.setBackground(BC);       
 		b.setOpaque(true);               
 		b.setBorderPainted(false);        
 	}
-   public void setJLableBackGround(JLabel l, Color FC,Color BC) {
+	
+	// Method to set JLabel background 
+   	public void setJLableBackGround(JLabel l, Color FC,Color BC) {
 		l.setOpaque(true);  
 		l.setBackground(BC);
 		l.setForeground(FC);
-		
 	}
-   public void setJTextAreaBackGround(JTextArea t, Color FC,Color BC) {
+	
+	// Method to set JTextArea background 
+  	public void setJTextAreaBackGround(JTextArea t, Color FC,Color BC) {
 		t.setOpaque(true);  
 		t.setBackground(BC);
-		t.setForeground(FC);
-		
+		t.setForeground(FC);	
 	}
-   //This is the reset mothed to reset the information
-   public void reset() {
+   
+  	// Method to reset the JCheckBox item selections
+	public void reset() {
 		BBML.setSelected(false); 
 		FPML.setSelected(false); 
 		LFML.setSelected(false); 
 		VGML.setSelected(false); 
 		SFML.setSelected(false); 
-   }
-	
-
+	}
 }
