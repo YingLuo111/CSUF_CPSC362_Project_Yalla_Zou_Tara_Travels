@@ -2,38 +2,30 @@
  * Class_362_Final_Project
  ****               Yalla Zou Tara                          ****
  *****************************************************************
- *This Project is the flight ticket reservation system.
- *The user can using this System booking the flight ticket 
- *choicing the Oneway or RoundTrip.
- ****         The function this project will have             ****
+ *This Project works as a flight ticket reservation system. The 
+ *user can use this system to book One Way or Round Trip flights
+ *****************************************************************
+ ****             Functions within this program:              ****
+ *****************************************************************
+ *The user can reserve their seat by clicking their seat of choice
+ *The user can reserve a disabled service
+ *The user can reserve a baby/child service.
+ *The user can reserve a food service
+ *The user can search a city's weather
+ *The user can change/refund their flight ticket by this system
+ *The user can correct their user information by going back to the 
+ *home page to change it 
+ *The user can send an email confirmation of their produced
+ *flight ticket information
  ******************************************************************
- *The user can reservate the seat by this system use the mouse
- *click what seat they want to choice.
- *The user can reservate the disabled help by this system.
- *The user can reservate the baby help by this system.
- *The user can reservate the special food by this system.
- *The user can search the city's weather by this system.
- *The user can chang/refound the flight ticket by this system
- ****         The fianlly result about the project             ****
- ******************************************************************
- *Finally the sysytem will the all of the information about the 
- *user choice, let make sure that is correct or not.
- *if the information is correct user can choice the submit it 
- *and get the filgt tickit.
- *if some infomation is not correct the user can back home change it.
- *******************************************************************
  */
-/*
- * This is the main function to operation the program
- */
-public class DriverFly {
 
+// This is the main function to operate the program
+public class DriverFly {
 	public static void main(String[] args) {
 		DBManager dbMgr = DBManager.getDBManager();
 		
 		Fly f =  new Fly(dbMgr);
 		f.setVisible(true);
-
 	}
-
 }
