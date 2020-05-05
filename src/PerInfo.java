@@ -1,20 +1,29 @@
+// This is the JPanel for the JPanel Personal Information
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
 public class PerInfo extends JPanel implements ActionListener{
+	
+	/*
+	 * Initializing all of the JLabels, JButtons, JTextFields,
+	 * JPanels, ImageIcons and Images
+	 */
 	JLabel label1 = new JLabel("  Personal Information ");
-    	JLabel label2 = new JLabel("  Enter your Personal Information ");
+    JLabel label2 = new JLabel("  Enter your Personal Information ");
 	
 	JButton finish                  = new JButton(" Finish-->>");
 	JButton backPersonalIyInfoHome  = new JButton("<<--Back Information Home");
 	JButton backHome                = new JButton("<<--Back Home");
 	
-	//userEnterName
+	// Textfield for user's name
 	JTextField userEnter1;
-	//userEnterPassport
+	
+	// Textfield for user's passport number
 	JTextField userEnter2;
+	
+	// Textfield for user's email address 
 	JTextField userEnterEmail;
 	
 	//JTextArea finishTextArea = new JTextArea("");
@@ -32,15 +41,20 @@ public class PerInfo extends JPanel implements ActionListener{
 	
 	//private CardLayout card = new CardLayout();
 	
-    	private ImageIcon Picture;
+    private ImageIcon Picture;
 	private Image Img;
 	private ImageIcon Picture2;
 	private Image Img2;
 	
 	private DBManager dbmgr;
 	
+	// Creating a flycontainer of type Fly
 	private Fly flyContainer;
 	
+	/*
+	 * This is the constructor of this class. It sets all of the JLabels, JButtons,
+	 * JPanels, fonts, background, size and layout 
+	 */
 	public PerInfo(Fly container, DBManager dbmgr) {
 		
 		flyContainer = container;
@@ -50,12 +64,11 @@ public class PerInfo extends JPanel implements ActionListener{
 		setSize(800,800);
 		setLayout(new BorderLayout());
 		
-		 label1.setFont(new Font("Arial", Font.BOLD, 25));
+		Font arial25 = new Font("Arial", Font.BOLD, 25);
+		 label1.setFont(arial25);
 		 setJLableBackGround(label1, Color.BLACK,new Color(100,149,237));
-		 label2.setFont(new Font("Arial", Font.BOLD, 25));
+		 label2.setFont(arial25);
 		 setJLableBackGround(label1, Color.BLACK,new Color(100,149,237));
-		
-		 
 		 setJButtonBackGround(finish, Color.BLACK,new Color(100,149,237));
 		 setJButtonBackGround( backPersonalIyInfoHome, Color.BLACK,new Color(100,149,237));
 		 setJButtonBackGround(backHome, Color.BLACK,new Color(100,149,237));
@@ -109,32 +122,44 @@ public class PerInfo extends JPanel implements ActionListener{
 		 backPersonalIyInfoHome.addActionListener(this);
 		
 	}
-
+	
+	/*
+	 * This is the actionperformed method to execute the user's action 
+	 * when selecting a JButton
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 		
+        // When the user selects the finish button, "currentlyFightInfo" appears
 		if(source == finish){
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(),"currentlyFightInfo");
-			
 			setCurUserInfo();
 			String curInfo = getCurInfo();
 			flyContainer.setCurFlightInfo(curInfo);
 			dbmgr.insertBookingInfo(flyContainer.getCurTicket(), flyContainer.getCurService(), flyContainer.getCurUser());
-		}else if(source == backPersonalIyInfoHome) {
-			
+		}
+		
+		// When the user selects the "Back Personal Info Home" button, "personiallyInfoHomePanel" appears
+		else if(source == backPersonalIyInfoHome) {
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(),"personiallyInfoHomePanel");
-		}else if(source == backHome) {
+		}
+		
+		// When the user selects the "Back Home" button, "HomePanel" appears
+		else if(source == backHome) {
 			
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(), "HomePanel");
-			//reset the information
+			
+			// Information resets
 			flyContainer.reset();
 		}
 		
 	}
+	
+	// Method to set the JButton Background
 	public void setJButtonBackGround(JButton b, Color FC,Color BC) {
 		
 		b.setForeground(FC);       
@@ -142,12 +167,16 @@ public class PerInfo extends JPanel implements ActionListener{
 		b.setOpaque(true);               
 		b.setBorderPainted(false);        
 	}
+	
+	// Method to set the JLabel Background
    public void setJLableBackGround(JLabel l, Color FC,Color BC) {
 		l.setOpaque(true);  
 		l.setBackground(BC);
 		l.setForeground(FC);
 		
 	}
+   
+   // Method to set the JTextArea background
    public void setJTextAreaBackGround(JTextArea t, Color FC,Color BC) {
 		t.setOpaque(true);  
 		t.setBackground(BC);
@@ -155,13 +184,14 @@ public class PerInfo extends JPanel implements ActionListener{
 		
 	}
 	
+   // Method to reset the JTextFields
    public void reset() {
 		userEnter1.setText("Please Enter Your Name (First Last)"); 
 	 	userEnter2.setText("Please Enter Your Passport Number");
 	 	userEnterEmail.setText("Please Enter Your Email");
    }
    
-   
+   // Method to set the information to the current user
    private void setCurUserInfo() {
 	   User curUser = flyContainer.getCurUser();
 	   String firstname = "", lastname = "";
@@ -169,7 +199,9 @@ public class PerInfo extends JPanel implements ActionListener{
 	   if (names.length > 1) {
 		   firstname = names[0];
 		   lastname = names[1];
-	   } else if (names.length == 1) {
+	   }
+	   
+	   else if (names.length == 1) {
 		   firstname = names[0];
 	   }
 	   
@@ -178,6 +210,8 @@ public class PerInfo extends JPanel implements ActionListener{
 	   curUser.setPassport(userEnter2.getText());
 	   curUser.setEmail(userEnterEmail.getText());
    }
+   
+   // Method to get the information the current user info 
    private String getCurInfo() {
 		  User u = flyContainer.getCurUser();
 		  Ticket t = flyContainer.getCurTicket();
@@ -190,6 +224,7 @@ public class PerInfo extends JPanel implements ActionListener{
 		  return userInfo + "\n\n" + ticketInfo + "\n" + serviceInfo;
 	  }
 	  
+   // Method to get the user's info 
 	  private String getUserInfo(User u) {
 		  String firstname = u.getFirstName();
 		  String lastname = u.getLastName();
@@ -201,6 +236,7 @@ public class PerInfo extends JPanel implements ActionListener{
 		  return userInfo;
 	  }
 	  
+	  // Method to get the ticket information 
 	  private String getTicketInfo(Ticket t) {
 		  String departAirport = t.getDepartAirport();
 		  String destAirport = t.getArriveAirport();
@@ -230,6 +266,7 @@ public class PerInfo extends JPanel implements ActionListener{
 		  
 	  }
 	  
+	  // Method to get the services the user booked
 	  private String getServiceInfo(Service s) {
 		  ArrayList<String> babyServices = null, foodServices = null, disableServices = null;
 		  
@@ -273,6 +310,7 @@ public class PerInfo extends JPanel implements ActionListener{
 		  return serviceInfo;
 	  }
 	  
+	  // Method to output the seat the user has chosen
 	  private String formatSeatInfo(String seatClass, int row, int col) {
 		  String seatInfo = "Seat at: ";
 		  if (seatClass.equals("Economy Class")) {
