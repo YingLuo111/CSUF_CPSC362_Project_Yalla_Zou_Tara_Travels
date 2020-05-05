@@ -14,7 +14,7 @@ public class FlightList extends JPanel implements ActionListener, ItemListener{
 	//Initialize all of the JLable, JButton,JComboBox and JPanel
 	
 	
-	private JLabel label2            = new JLabel(" Plaese choice");
+	private JLabel label2            = new JLabel(" Plaese Select ");
 	private JLabel label3            = new JLabel("        Flight Number               Price($)               Air Company");
 	
 
@@ -141,11 +141,8 @@ public class FlightList extends JPanel implements ActionListener, ItemListener{
 		}
 		
 	}
-	/*
-	 * This is the method to set the JButton Background 
-	 * This is the method to set the JLabel Background 
-	 * This is the method to set the JTextArea Background 
-	 */
+	
+	// Method to set the JButton Background
 	public void setJButtonBackGround(JButton b, Color FC,Color BC) {
 		
 		b.setForeground(FC);       
@@ -153,12 +150,14 @@ public class FlightList extends JPanel implements ActionListener, ItemListener{
 		b.setOpaque(true);               
 		b.setBorderPainted(false);        
 	}
+   // Method to set the JLabel Background 
    public void setJLableBackGround(JLabel l, Color FC,Color BC) {
 		l.setOpaque(true);  
 		l.setBackground(BC);
 		l.setForeground(FC);
 		
 	}
+   // Method to set the JTextArea Background
    public void setJTextAreaBackGround(JTextArea t, Color FC,Color BC) {
 		t.setOpaque(true);  
 		t.setBackground(BC);
@@ -166,6 +165,7 @@ public class FlightList extends JPanel implements ActionListener, ItemListener{
 		
 	}
    
+   // Method to update the Flight List
    public void updateFlightList(ArrayList<String> flightList) {
 	   if (this.checkBoxes.size() != 0) {
 		   this.checkBoxes = new ArrayList<JCheckBox>();
@@ -185,13 +185,14 @@ public class FlightList extends JPanel implements ActionListener, ItemListener{
 	   main.add(panelC, BorderLayout.CENTER);
    }
    
+   // Method to update the database query for reserved seats
    public ArrayList<List<String>> getReservedSeatsForFlight(String flight) {
 		ArrayList<List<String>> reservedSeats = dbManager.queryReservedSeatsForFlight(flight);
 		
 		return reservedSeats;
 	}
    
-   //This is the reset mothed to reset the information
+   // Method to reset the information
    public void reset() {
 	   	for (JCheckBox c : this.checkBoxes) {
 	   		c.setSelected(false);
