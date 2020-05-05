@@ -41,7 +41,7 @@ public class RoundTrip extends JPanel implements ActionListener{
 	private JComboBox year2 = new JComboBox(yeararray);
 	
 	private JButton backHome = new JButton("<<--Back Home");
-	private JButton backSclect  = new JButton("<<--Back Sclect");
+	private JButton backSclect  = new JButton("<<--Back Select");
 	private JButton next = new JButton("Next-->>");
 	
 	private JPanel panel1 = new JPanel();
@@ -76,7 +76,7 @@ public class RoundTrip extends JPanel implements ActionListener{
 	    
 	    	from1.setFont(arial20);
 	    	setJLableBackGround(  from1, Color.BLACK,new Color(100,149,237));
-	    	to.setFont(arrial20);
+	    	to.setFont(arial20);
 	    	setJLableBackGround(to, Color.BLACK,new Color(100,149,237));
 	    
 	    	Departure = new JLabel("Departure");
