@@ -9,10 +9,10 @@ public class BabyHelp extends JPanel implements ActionListener, ItemListener{
 	//Initializes all of the JLabels, JButtons, JComboBoxes and JPanels
 	
 	JLabel label1            = new JLabel("The Baby/Child Service ");
-	JLabel label2            = new JLabel(" Plaese choice");
-	JLabel label3            = new JLabel(" what service you want to reserve.V");
-	JButton finish           = new JButton("finish or Skip to next -->>");
-	JButton backMoreSevice   = new JButton("<<--Back More Sevice");
+	JLabel label2            = new JLabel(" Please Select");
+	JLabel label3            = new JLabel(" What Service Do You Need To Reserve?");
+	JButton finish           = new JButton("Finish or Skip to Next -->>");
+	JButton backMoreSevice   = new JButton("<<--Back More Service");
 	JButton backHome         = new JButton("<<--Back Home");
 	
 	JLabel image  = new JLabel(" ");
@@ -48,12 +48,13 @@ public class BabyHelp extends JPanel implements ActionListener, ItemListener{
 		setSize(800,800);
 		setLayout(new BorderLayout());
 		
-		label1.setFont(new Font("Arial", Font.BOLD, 25));
+		Font arial25 = new Font("Arial", Font.BOLD, 25);
+		label1.setFont(arial25);
 		setJLableBackGround(label1, Color.BLACK,new Color(255,240,245));
-		label2.setFont(new Font("Arial", Font.BOLD, 25));
-		setJLableBackGround(label1, Color.BLACK,new Color(255,240,245));
+		label2.setFont(arial25);
+		setJLableBackGround(label2, Color.BLACK,new Color(255,240,245));
 		label3.setFont(new Font("Arial", Font.BOLD, 15));
-		setJLableBackGround(label1, Color.BLACK,new Color(255,240,245));
+		setJLableBackGround(label3, Color.BLACK,new Color(255,240,245));
 		 
 		setJButtonBackGround(finish, Color.BLACK,new Color(255,240,245));
 		setJButtonBackGround(backMoreSevice, Color.BLACK,new Color(255,240,245));
@@ -118,7 +119,8 @@ public class BabyHelp extends JPanel implements ActionListener, ItemListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-		// If finish button is selected, foodHelpPanel appears
+        
+		// When the user selects "Finish" button, "foodHelpPanel" appears
 		if(source == finish){
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(),"foodHelpPanel");
@@ -130,58 +132,52 @@ public class BabyHelp extends JPanel implements ActionListener, ItemListener{
 			}
 			if (childUnaccompaniedMinor.isSelected()) {
 				curService.addBabyService("Unaccompanied Child");
-			}
-			
+			}	
 		}
 		
-		// If back more service button is selected, service home panel appears
+		// When user selects "Back More Service" button, "serviceHomePanel" appears
 		else if(source == backMoreSevice) {
 			
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(),"seviceHomePanel");
-			
 		}
-		// If back home button is selected, home pannel appears
+		
+		// When user selects "Back Home" button, "HomePanel" appears 
 		else if(source == backHome) {
-			
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(), "HomePanel");
-			//reset the information
+			
+			// Information resets
 			flyContainer.reset();
-		}
-		
+		}	
 	}
 	
-	//This is the method to set the JButton Background
+	// Method to set the JButton Background
 	public void setJButtonBackGround(JButton b, Color FC,Color BC) {
-		
 		b.setForeground(FC);       
 		b.setBackground(BC);       
 		b.setOpaque(true);               
 		b.setBorderPainted(false);        
 	}
 	
-	// This is the method to set the JLabel background
+	// Method to set the JLabel background
  	public void setJLableBackGround(JLabel l, Color FC,Color BC) {
 		l.setOpaque(true);  
 		l.setBackground(BC);
 		l.setForeground(FC);
-		
 	}
 	
-	// This is the method to set the JTextArea background
+	// Method to set the JTextArea background
    	public void setJTextAreaBackGround(JTextArea t, Color FC,Color BC) {
 		t.setOpaque(true);  
 		t.setBackground(BC);
 		t.setForeground(FC);
-		
 	}
 
    @Override
-   public void itemStateChanged(ItemEvent e) {
+   public void itemStateChanged(ItemEvent e) {}
 	
-   }
-	
+   // Method to reset the JCheckBoxes
 	public void reset() {
 		babyBasket.setSelected(false);              
 		childUnaccompaniedMinor.setSelected(false); 
