@@ -36,7 +36,7 @@ public class RoundTrip extends JPanel implements ActionListener{
 	private JComboBox month = new JComboBox(montharray);
 	private JComboBox month2= new JComboBox(montharray);
 	
-	private String[] yeararray = {"Year","2019","2020","2021"};
+	private String[] yeararray = {"Year","2020","2021"};
 	private JComboBox year = new JComboBox(yeararray);
 	private JComboBox year2 = new JComboBox(yeararray);
 	
@@ -63,7 +63,7 @@ public class RoundTrip extends JPanel implements ActionListener{
 		setSize(1000,800);
 		setLayout(new GridLayout(4,1));
 		
-		Font apple35 = new Font("Arial", Font.BOLD, 35);
+		Font apple35 = new Font("Apple Chancery", Font.BOLD, 35);
 		Font arial20 = new Font("Arial", Font.BOLD, 20);
 		
 		label1 = new JLabel("Please Enter Departing City/Airport and Arriving City/Airport");
