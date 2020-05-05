@@ -1,10 +1,9 @@
 /*
- * This the Class of main JFrame
- * Home calss extends JPanel
- * This class include the all the sub Jpanel
- * This class set the layout of JFrame and 
- * Setting the JMenuBar
- * connetting all of the JPanel of this Program
+ * This is the class of the main JFrame
+ * Home class extends JPanel
+ * This class includes the all the sub Jpanel
+ * This class sets the layout of JFrame and JMenuBar
+ * connetting all of the JPanels of this Program
  */
 import javax.swing.*;
 
@@ -16,17 +15,19 @@ import java.util.List;
 //This is the class of JFrame Fly it is the main class
 public class Fly extends JFrame implements ActionListener {
 	
-	/* Initialize the member is curUser is the class of the curuser*/
+	/* Initializing the member "curUser" in the class "User"*/
 	private User curUser       = new User();
-	/*Initialize the curTicket is curUser is the class of the Ticket*/
+	
+	/*Initializing the member "curTicket" in the class "Ticket"*/
 	private Ticket curTicket   = new Ticket();
-	/*Initialize the curService is curUser is the class of the Service*/
+	
+	/*Initializing the member "curService" in the class "Service"*/
 	private Service curService = new Service();
 	
 	private Map<Integer, Set<Integer>> reservedFirstClassSeatsMap = new HashMap<>();
 	private Map<Integer, Set<Integer>> reservedEconomyClassSeatsMap = new HashMap<>();
 	
-	//Initialize the JMenuBar and JMenu
+	//Initializing the JMenuBars and JMenu
 	JMenuBar mainbar    = new JMenuBar();
 	JMenu menu1         = new JMenu("File");
 	JMenu menu2         = new JMenu("Select");
@@ -35,29 +36,32 @@ public class Fly extends JFrame implements ActionListener {
 	JMenu menu4         = new JMenu("Service ");
 	JMenu menu5         = new JMenu("personal ");
 
-	//first JMenuItem
+	// First JMenuItems
 	JMenuItem exit = new JMenuItem("Exit");
 	JMenuItem home = new JMenuItem("Home");
-	//SecondJMenuItem
+	
+	// Second JMenuItems
 	JMenuItem change  = new JMenuItem("Change");
 	JMenuItem refund  = new JMenuItem("Online refund");
 
-	JMenuItem oneWay    = new JMenuItem("oneWay");
-	JMenuItem roundTrip = new JMenuItem("roundTrip");
+	JMenuItem oneWay    = new JMenuItem("One Way");
+	JMenuItem roundTrip = new JMenuItem("Round Trip");
 	
-	//ThirdlyJ MenuItem
+	// Third  JMenuItems
 	JMenuItem luggage  = new JMenuItem("Luggage");
 	JMenuItem wheather = new JMenuItem("Weather");
 	JMenuItem seat     = new JMenuItem("Seat");
-	//fourth JMenuItem
+	
+	// Fourth JMenuItems
 	JMenuItem disable = new JMenuItem("Disability Support");
 	JMenuItem baby    = new JMenuItem("Child Services");
 	JMenuItem food    = new JMenuItem("Meal Plan");
-	//five JMenuItem
+	
+	// Fifth JMenuItems
 	JMenuItem  personalInformation = new JMenuItem("Personal Information");
 	JMenuItem  currentlyFlight     = new JMenuItem("Current Flight");
 	
-	//Creating the all of the JPanel class in this program 
+	//Creating all of the JPanel classes in this program 
 	Login loginPanel;
 	Signup signupPanel;
 	
@@ -90,9 +94,9 @@ public class Fly extends JFrame implements ActionListener {
 	CardLayout cardLayout 					= new CardLayout();
 	
 	
-	//this is the fly constuctor
+	// Rhis is the fly constuctor
 	public Fly(DBManager dbmgr) {
-		//seting the jFrame's title, layout, size and Default colose
+		// Seting the JFrame's title, layout, size and Default close
 		super(" Yalla Zou Tara Travels ");
 		
 		this.loginPanel      = new Login(this, dbmgr);
@@ -106,24 +110,29 @@ public class Fly extends JFrame implements ActionListener {
 		setLayout(cardLayout);
 		setSize(800,800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//seting the JMenuBar
+		
+		// Seting the JMenuBar
 		setJMenuBar(mainbar);
-		//seting the maibar
+		
+		// Seting the mainbar
 		mainbar.add(menu1);
 		mainbar.add(menu2);
 		mainbar.add(menu3);
 		mainbar.add(menu4);
 		mainbar.add(menu5);
-		//seting the menu1 and add the JMenuItem
+		
+		// Seting menu1 and adding the JMenuItems
 		menu1.add(exit);
 		menu1.add(home);
-		//seting the menu21 and add the JMenuItem
+		
+		// Seting menu21 and adding the JMenuItems
 		menu21.add(oneWay);
 		menu21.add(roundTrip);
 		menu2.add(menu21);
 		menu2.add(change);
 		menu2.add(refund);
-		//seting the menu3 and add the JMenuItem
+		
+		// Seting menu3 and adding the JMenuItems
 		menu3.add(luggage);
 		menu3.add(wheather);
 		menu3.add(seat);
@@ -134,10 +143,10 @@ public class Fly extends JFrame implements ActionListener {
 		//seting the menu5 and add the JMenuItem
 		menu5.add(personalInformation);
 		menu5.add(currentlyFlight);
-		//adding the all of the JPanel i this programe 
+		
+		// Adding all of the JPanels in this programe 
 		add(loginPanel, "LoginPanel");
 		add(signupPanel, "SignupPanel");
-		
 		
 		add(homePanel, "HomePanel");
 		
@@ -181,8 +190,7 @@ public class Fly extends JFrame implements ActionListener {
 		food.addActionListener(this);
 		
 		personalInformation.addActionListener(this);
-		currentlyFlight.addActionListener(this);
-				
+		currentlyFlight.addActionListener(this);		
 	}
 	/*
 	 * This is the actionperformed to execute the button's action 
@@ -250,34 +258,31 @@ public class Fly extends JFrame implements ActionListener {
 		}
 		
 	}
-	//this is the method to get the CardLayout 
+	// Method to get the CardLayout 
 	public CardLayout getCardLayout() {
 		return this.cardLayout;
 	}
-	//this is the method to get the currently user 
+	// Method to get the current user 
 	public User getCurUser() {
 		return curUser;
 	}
-	//this is the method to get the currently ticket
+	// Method to get the current ticket
 	public Ticket getCurTicket() {
 		return curTicket;
 	}
-	//this is the method to get the currently service
+	// Method to get the current service
 	public Service getCurService() {
 		return curService;
 	}
-	//this is the method to get the currently fight tickit information 
+	// Method to get the current fight ticket information 
 	public void setCurFlightInfo(String info) {
 		currentlyFightInfo.setDisplayedInfo(info);
 	}
 	
-	
-	
 	public void updateFlightListPanel(ArrayList<String> flightList) {
 		this.FlightListPanel.updateFlightList(flightList);
 	}
-	
-	
+
 	public void setReservedSeatsMap(ArrayList<List<String>> reservedSeats) {
 		this.reservedFirstClassSeatsMap.clear();
 		this.reservedEconomyClassSeatsMap.clear();
@@ -311,7 +316,7 @@ public class Fly extends JFrame implements ActionListener {
 		this.seatPanel.markReservedSeats(reservedFirstClassSeatsMap, reservedEconomyClassSeatsMap);
 	}
 	
-	//this is the method to rest all of the actions
+	// Method to reset all of the actions
 	public void reset() {
 		oTrip.reset();                      
 		rTrip.reset(); 					  
@@ -335,33 +340,3 @@ public class Fly extends JFrame implements ActionListener {
 		curService = new Service();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
