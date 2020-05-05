@@ -4,9 +4,8 @@ import java.awt.event.*;
 import java.util.*;
 
 public class PerInfo extends JPanel implements ActionListener{
-	JLabel label1 = new JLabel("  The Personially Information ");
-    JLabel label2 = new JLabel("  Enter your Personially Information ");
-	
+	JLabel label1 = new JLabel("  Personal Information ");
+    	JLabel label2 = new JLabel("  Enter your Personal Information ");
 	
 	JButton finish                  = new JButton(" Finish-->>");
 	JButton backPersonalIyInfoHome  = new JButton("<<--Back Information Home");
@@ -19,11 +18,9 @@ public class PerInfo extends JPanel implements ActionListener{
 	JTextField userEnterEmail;
 	
 	//JTextArea finishTextArea = new JTextArea("");
-	
-	
+
 	JLabel image  = new JLabel(" ");
 	JLabel image2 = new JLabel(" ");
-	
 	
 	JPanel main   = new JPanel();
 	JPanel panelC = new JPanel();
@@ -35,7 +32,7 @@ public class PerInfo extends JPanel implements ActionListener{
 	
 	//private CardLayout card = new CardLayout();
 	
-    private ImageIcon Picture;
+    	private ImageIcon Picture;
 	private Image Img;
 	private ImageIcon Picture2;
 	private Image Img2;
@@ -63,10 +60,9 @@ public class PerInfo extends JPanel implements ActionListener{
 		 setJButtonBackGround( backPersonalIyInfoHome, Color.BLACK,new Color(100,149,237));
 		 setJButtonBackGround(backHome, Color.BLACK,new Color(100,149,237));
 		 
-		userEnter1= new JTextField("Please enter your name Fist Last",12);
-	 	userEnter2= new JTextField("Please enter your pastport number",12);
-	 	userEnterEmail= new JTextField("Please enter your email",12);
-	 	
+		userEnter1= new JTextField("Please Enter Your Name (First Last)",12);
+	 	userEnter2= new JTextField("Please Enter Your Passport Number",12);
+	 	userEnterEmail= new JTextField("Please Enter Your Email",12);
 		 
 		Picture = new ImageIcon("resources/Images/subtitle.png");
 		Img = Picture.getImage().getScaledInstance(900, 250, java.awt.Image.SCALE_SMOOTH);
@@ -85,7 +81,6 @@ public class PerInfo extends JPanel implements ActionListener{
 		panelN.add(image);
 		panelS.add(image2);
 		
-		
 		panelEnter.setBackground(new Color(100,149,237));
 		panelEnter.setLayout(new GridLayout(4,1));
 		panelEnter.add(label2);
@@ -93,10 +88,8 @@ public class PerInfo extends JPanel implements ActionListener{
 		panelEnter.add(userEnter2);
 		panelEnter.add(userEnterEmail);
 		
-		
 		panelC.setBackground(new Color(100,149,237));
 		panelC.add(panelEnter,BorderLayout.CENTER);
-		
 		
 		panelW.setLayout(new GridLayout(4, 1));
 		panelW.add(label1);
@@ -163,9 +156,9 @@ public class PerInfo extends JPanel implements ActionListener{
 	}
 	
    public void reset() {
-		userEnter1.setText("Please enter your name Fist Last"); 
-	 	userEnter2.setText("Please enter your pastport number");
-	 	userEnterEmail.setText("Please enter your email");
+		userEnter1.setText("Please Enter Your Name (First Last)"); 
+	 	userEnter2.setText("Please Enter Your Passport Number");
+	 	userEnterEmail.setText("Please Enter Your Email");
    }
    
    
