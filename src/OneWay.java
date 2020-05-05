@@ -29,7 +29,7 @@ public class OneWay extends JPanel implements ActionListener{
 	private String[] montharray = {"Month","1","2","3","4","5","6","7","8","9","10","11","12"};
 	private JComboBox month     = new JComboBox(montharray);
 	
-	private String[] yeararray  = {"Year","2019","2020","2021"};
+	private String[] yeararray  = {"Year","2020","2021"};
 	private JComboBox year      = new JComboBox(yeararray);
 	
 	private JButton backHome    = new JButton("<<--Back Home");
