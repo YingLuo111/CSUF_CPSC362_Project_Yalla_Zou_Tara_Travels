@@ -6,15 +6,19 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-//This is the class of the JPanel  Seat and implements ActionListener
+//This is the class of the JPanel Seat. It implements ActionListener and MouseListener
 public class Seat extends JPanel implements ActionListener, MouseListener{
-	//Initialize all of the JLable, JButton,JComboBox and JPanel
-		private JLabel label1 = new JLabel("  The Seat information ");
+	
+	/*
+	 * Initializing all of the JLabels, JButtons, JComboBoxes, JPanels
+	 * boolean values, current rows and columns for first and ecnomic flight class
+	 */
+		private JLabel label1 = new JLabel("  The Seat Information ");
 		
 		private JButton firstBusinessClass        = new JButton("First Class/Business Class Seat");
 		private JButton economyClass              = new JButton(" Economy Class Seat");
 		private JButton next                      = new JButton("Next-->>");
-		private JButton backSevice                = new JButton("<<--Back Sevice Home");
+		private JButton backSevice                = new JButton("<<--Back Service Home");
 		private JButton backHome                  = new JButton("<<--Back Home");
 		
 		private JLabel image  = new JLabel(" ");
@@ -29,7 +33,6 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 		private JPanel ecomCell[][]  = new JPanel[ROW2][COL2];
 		private boolean firstCellReserved[][] = new boolean[ROW1][COL1];
 		private boolean econCellReserved[][] = new boolean[ROW2][COL2]; 
-		
 		
 		private boolean isFirstBoardSelected = false;
 		private boolean isEcomBoardSelected = false;
@@ -53,12 +56,12 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 		private ImageIcon Picture2;
 		private Image Img2;
 		
-		
+		// Creating a variable flyContainer of type Fly
 		private Fly flyContainer;
+		
 		/*
-		 * This is the constructor  of this class
-		 *this consturctor setting the all of the JLabel's
-		 *JButton's, JPanel's font,backgound, size and layout 
+		 * This is the constructor of the class. It sets all of the JLabels,
+		 * JButtons, JPanels, seat grid, font, backgound, size and layout 
 		 */
 		public Seat(Fly container) {
 			
@@ -149,21 +152,28 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 			backSevice.addActionListener(this);
 			
 		}
+		
 		/*
-		 * This is the actionperformed to execute the button's action 
-		 * if the user click the different buttonSelect go to the  different Select action
+		 * This is the actionperformed method to execute the user's action 
+		 * when selecting a JButton
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 	        Object source = e.getSource();
 			
+	        // When the user selects "First Business Class" button, "firstClassBoard" appears
 			if(source == firstBusinessClass){
 				seatCardLayout.show(panelC, "firstClassBoard");
-				
-			}else if(source == economyClass){
-				seatCardLayout.show(panelC, "economyClassBoard");
-				
-			}else if (source == next) {
+			}
+			
+			// When the user selects "Economy Class" button, "economyClassBoard" appears
+			else if(source == economyClass){
+				seatCardLayout.show(panelC, "economyClassBoard");	
+			}
+			
+			// When the user selects "Next" button, "disableHelpPanel" appears and 
+			// it sets the values of row and column for the flight class the user selected
+			else if (source == next) {
 				CardLayout flyCardLayout = flyContainer.getCardLayout();
 				flyCardLayout.show(flyContainer.getContentPane(),"disableHelpPanel");
 				Ticket curTicket = flyContainer.getCurTicket();
@@ -176,24 +186,27 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 					curTicket.setSeatRow(String.valueOf(curEcomCellSelectedRow));
 					curTicket.setSeatCol(String.valueOf(curEcomCellSelectedCol));	
 				}
-			}else if(source == backSevice) {
-				
+			}
+			
+			// When the user selects "Back Service" button, "informationHomePanel" appears
+			else if(source == backSevice) {
 				CardLayout flyCardLayout = flyContainer.getCardLayout();
 				flyCardLayout.show(flyContainer.getContentPane(),"informationHomePanel");
 				
-			}else if(source == backHome) {
-				
+			}
+			
+			// When the user selects "Back Home" button, "HomePanel" appears 
+			else if(source == backHome) {
 				CardLayout flyCardLayout = flyContainer.getCardLayout();
 				flyCardLayout.show(flyContainer.getContentPane(), "HomePanel");
-				//reset the information
+				
+				// Information resets 
 				flyContainer.reset();
 			}
 			
 		}
 		/*
-		 * This is the method to set the JButton Background 
-		 * This is the method to set the JLabel Background 
-		 * This is the method to set the JTextArea Background 
+		 * Methods to set the JButton, JLabel and JTextArea backgrounds
 		 */
 		public void setJButtonBackGround(JButton b, Color FC,Color BC) {
 			
@@ -202,7 +215,7 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 			b.setOpaque(true);               
 			b.setBorderPainted(false);        
 		}
-	   public void setJLableBackGround(JLabel l, Color FC,Color BC) {
+		public void setJLableBackGround(JLabel l, Color FC,Color BC) {
 			l.setOpaque(true);  
 			l.setBackground(BC);
 			l.setForeground(FC);
@@ -214,10 +227,9 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 			t.setForeground(FC);
 			
 		}
-	   /*
-		 * This is the actionperformed to execute the mouse's action 
-		 * if the user click the mouse  to choice the seat
-		 */
+	 
+	   // MouseClicked method to set a seat color to red when selected
+	   // and set a seat color to green when deselected 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		for(int i = 0; i < ROW1 ; i++) {
@@ -246,7 +258,8 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 				}
 			}
 		}
-		//Test choice the ecom class or not
+		
+		// Test selection if ecomomy class or not
 		for(int i = 0; i < ROW2 ; i++) {
 			for(int j = 0; j <COL2; j++) {
 				if (j == 3) continue;
@@ -299,6 +312,7 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 		
 	}
 	
+	// Method to mark a reserved seat as red 
 	public void markReservedSeats(Map<Integer, Set<Integer>> reservedFirstClassSeatsMap, Map<Integer, Set<Integer>> reservedEconomyClassSeatsMap) {
 		for (Map.Entry<Integer, Set<Integer>> e : reservedFirstClassSeatsMap.entrySet()) {
 			int row = e.getKey();
@@ -325,6 +339,7 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 		}
 	}
 	
+	// Boolean method to return message if a first class flight seat is already reserved
 	private boolean isFirstReserved(int row, int col) {
 		boolean result = false;
 		if (firstCellReserved[row][col] == true) {
@@ -334,6 +349,7 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 		return result;
 	}
 	
+	// Boolean method to return message if an economy class flight seat is already reserved
 	private boolean isEconReserved(int row, int col) {
 		boolean result = false;
 		if (econCellReserved[row][col] == true) {
@@ -343,7 +359,7 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 		return result;
 	}
 	
-	 //This is the reset mothed to reset the information
+	 // This is the reset method to reset the information
 	public void reset() {
 		if (isFirstBoardSelected == true) {
 			firstCell[curFirstCellSelectedRow][curFirstCellSelectedCol].setBackground(new Color(127,255,0));
@@ -359,7 +375,5 @@ public class Seat extends JPanel implements ActionListener, MouseListener{
 		
 		curEcomCellSelectedRow = -1;
 		curEcomCellSelectedCol = -1;
-		
-		
 	}
 }
