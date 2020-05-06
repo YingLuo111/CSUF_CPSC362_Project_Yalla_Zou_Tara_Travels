@@ -1,9 +1,17 @@
+/*
+ *  This class is the final panel shown after a user has successfully 
+ *  booked their flight. From here, they can share theiir email or
+ *  go back to the personal information home.
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
 public class CurrentlyFightInfo extends JPanel implements ActionListener{
+	
+	// Initializing the JLabels, Jbuttons, JPanels, ImageIcons, Images and JTextArea
 	JLabel label1 = new JLabel(" Congratulations ! ");
     JLabel label2 = new JLabel("  Enter City and Date again ");
 	
@@ -32,19 +40,23 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
 	private Image Img2;
 	private JTextArea finalInfo;
 	
+	// Creating a variable flycontainer of type Fly
 	private Fly flyContainer;
 	
+	/*
+	 * Constructor of this class. It sets all of the JLabels,
+	 * JButtons, JPanels, Images, font, background, size and layout
+	 */
 	public CurrentlyFightInfo(Fly container) {
-		
 		flyContainer = container;
 		setSize(800,800);
 		setLayout(new BorderLayout());
 		
-		 label1.setFont(new Font("Arial", Font.BOLD, 25));
+		Font arial25 = new Font("Arial", Font.BOLD, 25);
+		 label1.setFont(arial25);
 		 setJLableBackGround(label1, Color.BLACK,new Color(135,206,250));
-		 label2.setFont(new Font("Arial", Font.BOLD, 25));
+		 label2.setFont(arial25);
 		 setJLableBackGround(label1, Color.BLACK,new Color(135,206,250));
-		 
 		 
 		 setJButtonBackGround(finish, Color.BLACK,new Color(135,206,250));
 		 setJButtonBackGround(backPersonalIyInfoHome, Color.BLACK,new Color(135,206,250));
@@ -84,51 +96,68 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
 		
 		add(main);
 		
-		
 		finish.addActionListener(this);
 		backPersonalIyInfoHome.addActionListener(this);
 		backHome.addActionListener(this);
 		shareWithEmail.addActionListener(this);	
 	}
 
+	/*
+	 * This is the actionperformed to execute the button's actions
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 		
+        // When user selects "Back Personal Info Home" button, "personiallyInfoHomePanel" appears
 		if(source == backPersonalIyInfoHome){
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(),"personiallyInfoHomePanel");
-			
-		}else if(source == finish) {
+		}
+		
+		// When user selects "Finish" button, "HomePanel" appears 
+		else if(source == finish) {
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(), "HomePanel");
 			flyContainer.reset();
-		}else if(source == backHome) {
-			
+		}
+		
+		// When user selects "Back Home" button, "HomePanel" appears
+		else if(source == backHome) {
 			CardLayout flyCardLayout = flyContainer.getCardLayout();
 			flyCardLayout.show(flyContainer.getContentPane(), "HomePanel");
-			//reset the information
+			
+			// Information resets
 			flyContainer.reset();
-		} else if (source == shareWithEmail) {
+		} 
+		
+		/*
+		 * When user selects "Share Eith Email" button, email confirmation is sent to the 
+		 * user's email, signaled by a message dialog saying the email was sent successfully 
+		 */
+		else if (source == shareWithEmail) {
 			String curInfo = getCurInfo();
 			SendEmail.send(flyContainer.getCurUser().getEmail(), curInfo);
 			JOptionPane.showMessageDialog(null, "Your booking infomation has been send to " + flyContainer.getCurUser().getEmail());
 		}
-		
 	}
+	
+	// Method to set JButton background 
 	public void setJButtonBackGround(JButton b, Color FC,Color BC) {
-		
 		b.setForeground(FC);       
 		b.setBackground(BC);       
 		b.setOpaque(true);               
 		b.setBorderPainted(false);        
 	}
+	
+	// Method to set JLabel background
    public void setJLableBackGround(JLabel l, Color FC,Color BC) {
 		l.setOpaque(true);  
 		l.setBackground(BC);
 		l.setForeground(FC);
-		
 	}
+   
+   // Method to set JTextArea background
    public void setJTextAreaBackGround(JTextArea t, Color FC,Color BC) {
 		t.setOpaque(true);  
 		t.setBackground(BC);
@@ -136,14 +165,17 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
 		
 	}
    
+   // Method to reset JTextArea
    public void reset() {
 		finalInfo.setText(""); 
    }
 
+   // Method to set the info
    public void setDisplayedInfo(String info) {
 	   finalInfo.setText(info);
    }
    
+   // Method to get the user's personal, ticket and service info
    private String getCurInfo() {
 		  User u = flyContainer.getCurUser();
 		  Ticket t = flyContainer.getCurTicket();
@@ -156,6 +188,7 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
 		  return userInfo + "\n\n" + ticketInfo + "\n" + serviceInfo;
 	  }
 	  
+   // Method to get user's first and last name, and passport number
 	  private String getUserInfo(User u) {
 		  String firstname = u.getFirstName();
 		  String lastname = u.getLastName();
@@ -167,6 +200,7 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
 		  return userInfo;
 	  }
 	  
+	  // Method to get all the details of the user's flight ticket 
 	  private String getTicketInfo(Ticket t) {
 		  String departAirport = t.getDepartAirport();
 		  String destAirport = t.getArriveAirport();
@@ -196,6 +230,7 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
 		  
 	  }
 	  
+	  // Method to get all the service info the user booked 
 	  private String getServiceInfo(Service s) {
 		  ArrayList<String> babyServices = null, foodServices = null, disableServices = null;
 		  
@@ -241,6 +276,7 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
 		  return serviceInfo;
 	  }
 	  
+	  // Method to format the user's seat into letters and numbers 
 	  private String formatSeatInfo(String seatClass, int row, int col) {
 		  String seatInfo = "Seat at: ";
 		  if (seatClass.equals("Economy Class")) {
@@ -267,4 +303,3 @@ public class CurrentlyFightInfo extends JPanel implements ActionListener{
 		  return seatInfo;
 	  }
 }
-
